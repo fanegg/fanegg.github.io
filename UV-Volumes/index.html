@@ -69,7 +69,7 @@
         <div class="col-12 text-center">
           <h3>Pipeline</h3>
             <hr style="margin-top:0px">
-            <img class="img-fluid" src="images/pipe.jpg">
+            <img width="80%" class="img-fluid" src="images/pipe.jpg">
             <hr style="margin-top:0px">
           <p class="text-justify">  </p>
           <p class="text-justify"> Our model has two main branches: 1) Based on a human pose $\theta$, a volume generator constructs UV volumes involving the feature of UV information. Then a feature map can be rendered via differentiable raymarching and decoded to texture coordinates (UV) pixel-by-pixel. 2) A texture generator produces a pose-dependent NTS encoding the highly-detailed appearance information. The UV coordinates and the texture embedding interpolated by it are passed into an MLP to predict spherical harmonic coefficients $\eta$. The final color $\hat{\mathcal{C}}$ can be calculated by summing the weighted spherical harmonic bases evaluated at the desired ray direction $\mathbf{d}$.</p>
