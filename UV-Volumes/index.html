@@ -52,7 +52,7 @@
         <div class="col-12 text-center">
           <h3>Abstract</h3>
             <hr style="margin-top:0px">
-            <img class="img-fluid" src="images/teaser.jpg" alt=" Novel view synthesis, reposing, retexturing, and reshaping results of proposed UV volume. Compared with baseline methods, our method supports real-time rendering and preserves more sharp image details.">
+            <img class="img-fluid" src="images/teaser.jpg">
             <hr style="margin-top:0px">
               <!-- <br><br> -->
           <p class="text-justify">  </p>
@@ -63,7 +63,25 @@
   </section>
   <br>
 
-  <!-- Appearance Hallucination -->
+  <!-- pipeline -->
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h3>Pipeline</h3>
+            <hr style="margin-top:0px">
+            <img class="img-fluid" src="images/pipe.jpg" alt=" Novel view synthesis, reposing, retexturing, and reshaping results of proposed UV volume. Compared with baseline methods, our method supports real-time rendering and preserves more sharp image details.">
+            <hr style="margin-top:0px">
+              <!-- <br><br> -->
+          <p class="text-justify">  </p>
+          <p class="text-justify"> Our model has two main branches: 1) Based on a human pose $\theta$, a volume generator constructs UV volumes involving the feature of UV information. Then a feature map can be rendered via differentiable raymarching and decoded to texture coordinates (UV) pixel-by-pixel. 2) A texture generator produces a pose-dependent NTS encoding the highly-detailed appearance information. The UV coordinates and the texture embedding interpolated by it are passed into an MLP to predict spherical harmonic coefficients $\eta$. The final color $\hat{\mathcal{C}}$ can be calculated by summing the weighted spherical harmonic bases evaluated at the desired ray direction $\mathbf{d}$.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+  
+  <!-- Novel view synthesis of dynamic human -->
   <section>
     <div class="container">
       <div class="row">
