@@ -22,7 +22,7 @@ const defaultVideo2 = videos.find(v => v.scene === scenes[0] && v.label === defa
 ---
 
 <div 
-  class={`compare-videos-container w-full ${className}`}
+  class={`compare-videos-container ${className || 'w-full'}`}
   data-first-label={defaultLabels.first}
   data-second-label={defaultLabels.second}
 >
