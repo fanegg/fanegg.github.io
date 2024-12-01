@@ -240,22 +240,18 @@ const defaultVideo2 = videos.find(v => v.scene === scenes[0] && v.label === defa
       }
   
       private updateButtonStyles() {
-        this.container.querySelectorAll('.video-selector').forEach((btn) => {
-          const btnScene = btn.getAttribute('data-scene') || '';
-          const source = btn.getAttribute('data-source') || '';
-          const isSelected = this.selectedSources.some(item => item.source === source);
-          const color = btn.getAttribute('data-color') || '#a1a1aa';
+        const buttons = this.container.querySelectorAll('.video-selector');
+        buttons.forEach((btn) => {
+          const button = btn as HTMLElement;
+          const color = button.getAttribute('data-color') || '#a1a1aa';
+          const source = button.getAttribute('data-source');
           
-          btn.classList.toggle('hidden', btnScene !== this.currentScene);
-          
-          if (isSelected) {
-            btn.style.backgroundColor = color;
-            btn.style.borderColor = color;
-            btn.classList.add('text-white');
+          if (this.selectedSources.some(item => item.source === source)) {
+            button.style.backgroundColor = color;
+            button.style.borderColor = color;
           } else {
-            btn.style.backgroundColor = '';
-            btn.style.borderColor = color;
-            btn.classList.remove('text-white');
+            button.style.backgroundColor = '';
+            button.style.borderColor = color;
           }
         });
       }

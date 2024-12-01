@@ -64,13 +64,17 @@ const defaultVideo = videos.find(v => v.scene === scenes[0] && v.label === defau
 </div>
 
 <script>
-  Number.prototype.clamp = function(min, max) {
-    return Math.min(Math.max(this, min), max);
+  interface CustomNumber extends Number {
+    clamp(min: number, max: number): number;
+  }
+
+  (Number.prototype as any).clamp = function(min: number, max: number): number {
+    return Math.min(Math.max(Number(this), min), max);
   };
 
-  function playVids(videoId) {
-    const videoMerge = document.getElementById(videoId + "Merge");
-    const vid = document.getElementById(videoId);
+  function playVids(videoId: string) {
+    const videoMerge = document.getElementById(videoId + "Merge") as HTMLCanvasElement;
+    const vid = document.getElementById(videoId) as HTMLVideoElement;
 
     if (!videoMerge || !vid) {
         console.error('Video elements not found');
@@ -88,15 +92,17 @@ const defaultVideo = videos.find(v => v.scene === scenes[0] && v.label === defau
 
     const mergeContext = videoMerge.getContext("2d");
     
+    if (!mergeContext) return;
+    
     if (vid.readyState > 3) {
       vid.play();
 
-      function trackLocation(e) {
+      function trackLocation(e: MouseEvent) {
         const bcr = videoMerge.getBoundingClientRect();
         position = ((e.pageX - bcr.x) / bcr.width);
       }
 
-      function trackLocationTouch(e) {
+      function trackLocationTouch(e: TouchEvent) {
         const bcr = videoMerge.getBoundingClientRect();
         position = ((e.touches[0].pageX - bcr.x) / bcr.width);
       }
@@ -106,9 +112,15 @@ const defaultVideo = videos.find(v => v.scene === scenes[0] && v.label === defau
       videoMerge.addEventListener("touchmove", trackLocationTouch, false);
 
       function drawLoop() {
+        if (!mergeContext) return;
+
+        const clamp = (num: number, min: number, max: number): number => {
+          return Math.min(Math.max(num, min), max);
+        };
+
         mergeContext.drawImage(vid, 0, 0, vidWidth, vidHeight, 0, 0, vidWidth, vidHeight);
-        const colStart = (vidWidth * position).clamp(0.0, vidWidth);
-        const colWidth = (vidWidth - (vidWidth * position)).clamp(0.0, vidWidth);
+        const colStart = clamp(vidWidth * position, 0.0, vidWidth);
+        const colWidth = clamp(vidWidth - (vidWidth * position), 0.0, vidWidth);
         mergeContext.drawImage(vid, colStart+vidWidth, 0, colWidth, vidHeight, colStart, 0, colWidth, vidHeight);
         
         const scale = 0.6;
@@ -120,6 +132,7 @@ const defaultVideo = videos.find(v => v.scene === scenes[0] && v.label === defau
         const arrowWidth = 0.007 * vidHeight * scale;
         const currX = vidWidth * position;
 
+        mergeContext.beginPath();
         mergeContext.arc(currX, arrowPosY, arrowLength*0.7, 0, Math.PI * 2, false);
         mergeContext.fillStyle = "#FFD79340";
         mergeContext.fill();
@@ -156,14 +169,14 @@ const defaultVideo = videos.find(v => v.scene === scenes[0] && v.label === defau
     }
   }
 
-    function resizeAndPlay(element) {
+  function resizeAndPlay(element: HTMLVideoElement) {
     if (!element) {
         console.error('Video element not found');
         return;
     }
 
-    const cv = document.getElementById(element.id + "Merge");
-    const container = element.parentElement;
+    const cv = document.getElementById(element.id + "Merge") as HTMLCanvasElement;
+    const container = element.parentElement as HTMLElement;
     
     if (!cv || !container) {
         console.error('Required elements not found');
@@ -181,14 +194,14 @@ const defaultVideo = videos.find(v => v.scene === scenes[0] && v.label === defau
     container.style.width = `${(element.videoWidth/2) * 0.5}px`;
     container.style.height = `${element.videoHeight * 0.5}px`;
     
-    element.play().catch(error => {
+    element.play().catch((error: Error) => {
         console.error('Error playing video:', error);
     });
     element.style.height = "0px";
     element.classList.remove('opacity-0');
 
     playVids(element.id);
-    }
+  }
 
   class VideoController {
     private container: Element;
@@ -215,7 +228,7 @@ const defaultVideo = videos.find(v => v.scene === scenes[0] && v.label === defau
       if (this.currentVideo && this.currentVideo.src) {
         this.currentVideo.load();
         this.currentVideo.onloadedmetadata = () => {
-          resizeAndPlay(this.currentVideo);
+          resizeAndPlay(this.currentVideo as HTMLVideoElement);
         };
       }
 
@@ -283,23 +296,30 @@ const defaultVideo = videos.find(v => v.scene === scenes[0] && v.label === defau
 
     private updateButtonStyles() {
       this.container.querySelectorAll('.video-selector').forEach((btn) => {
-        const btnScene = btn.getAttribute('data-scene') || '';
-        const source = btn.getAttribute('data-source') || '';
-        const color = btn.getAttribute('data-color') || '#a1a1aa';
+        const button = btn as HTMLElement;
+        const btnScene = button.getAttribute('data-scene') || '';
+        const source = button.getAttribute('data-source') || '';
+        const color = button.getAttribute('data-color') || '#a1a1aa';
         const isCurrentVideo = this.currentVideo?.src.endsWith(source);
         
-        btn.classList.toggle('hidden', btnScene !== this.currentScene);
+        button.classList.toggle('hidden', btnScene !== this.currentScene);
         
         if (isCurrentVideo) {
-          btn.style.backgroundColor = color;
-          btn.style.borderColor = color;
-          btn.classList.add('text-white');
+          button.style.backgroundColor = color;
+          button.style.borderColor = color;
+          button.classList.add('text-white');
         } else {
-          btn.style.backgroundColor = '';
-          btn.style.borderColor = color;
-          btn.classList.remove('text-white');
+          button.style.backgroundColor = '';
+          button.style.borderColor = color;
+          button.classList.remove('text-white');
         }
       });
+    }
+  }
+
+  declare global {
+    interface Window {
+      resizeAndPlay: typeof resizeAndPlay;
     }
   }
 
