@@ -7,6 +7,8 @@ import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://fanegg.github.io',
+  base: '/Feat2GS',
   integrations: [tailwind(), icon(), mdx(), react()],
   markdown: {
     shikiConfig: {
