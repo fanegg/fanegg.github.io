@@ -243,15 +243,20 @@ const defaultVideo2 = videos.find(v => v.scene === scenes[0] && v.label === defa
         const buttons = this.container.querySelectorAll('.video-selector');
         buttons.forEach((btn) => {
           const button = btn as HTMLElement;
-          const color = button.getAttribute('data-color') || '#a1a1aa';
+          const btnScene = button.getAttribute('data-scene') || '';
           const source = button.getAttribute('data-source');
+          const color = button.getAttribute('data-color') || '#a1a1aa';
+          
+          button.classList.toggle('hidden', btnScene !== this.currentScene);
           
           if (this.selectedSources.some(item => item.source === source)) {
             button.style.backgroundColor = color;
             button.style.borderColor = color;
+            button.classList.add('text-white');
           } else {
             button.style.backgroundColor = '';
             button.style.borderColor = color;
+            button.classList.remove('text-white');
           }
         });
       }
