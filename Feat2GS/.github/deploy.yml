@@ -3,15 +3,23 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
-  
+    paths:
+      - 'Feat2GS/**'
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./Feat2GS
+
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
       
       - name: Install dependencies
         run: npm install
@@ -23,4 +31,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./Feat2GS/dist
+          destination_dir: Feat2GS  # 指定部署到 gh-pages 分支的子目录
