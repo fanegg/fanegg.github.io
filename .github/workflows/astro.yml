@@ -45,21 +45,9 @@ jobs:
       # 调试：查看构建输出
       - name: Debug build output
         run: |
-          echo "Feat2GS/dist contents:"
-          ls -la ${{ env.BUILD_PATH }}/dist
-
-      # 在 Build with Astro 步骤后添加
-      - name: Debug build output
-        run: |
           echo "Checking build output..."
           echo "Contents of ${{ env.BUILD_PATH }}/dist:"
           ls -la ${{ env.BUILD_PATH }}/dist
-          
-          echo "Contents of tmp_deploy/Feat2GS:"
-          ls -la tmp_deploy/Feat2GS || echo "Feat2GS directory not found!"
-          
-          echo "Full deployment structure:"
-          ls -la tmp_deploy
 
       # 准备部署文件
       - name: Prepare deployment
