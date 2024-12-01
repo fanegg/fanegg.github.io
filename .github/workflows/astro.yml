@@ -48,19 +48,41 @@ jobs:
           echo "Feat2GS/dist contents:"
           ls -la ${{ env.BUILD_PATH }}/dist
 
+      # 在 Build with Astro 步骤后添加
+      - name: Debug build output
+        run: |
+          echo "Checking build output..."
+          echo "Contents of ${{ env.BUILD_PATH }}/dist:"
+          ls -la ${{ env.BUILD_PATH }}/dist
+          
+          echo "Contents of tmp_deploy/Feat2GS:"
+          ls -la tmp_deploy/Feat2GS || echo "Feat2GS directory not found!"
+          
+          echo "Full deployment structure:"
+          ls -la tmp_deploy
+
       # 准备部署文件
       - name: Prepare deployment
         run: |
           # 创建临时目录
           mkdir -p tmp_deploy
-          # 复制现有文件
+          
+          # 复制所有现有文件
           cp -r * tmp_deploy/ || true
-          # 确保有 .nojekyll
-          touch tmp_deploy/.nojekyll
-          # 更新 Feat2GS 目录
+          cp -r .nojekyll tmp_deploy/ || true
+          
+          # 确保 Feat2GS 目录存在并清空
           rm -rf tmp_deploy/Feat2GS
           mkdir -p tmp_deploy/Feat2GS
+          
+          # 复制构建输出
           cp -r ${{ env.BUILD_PATH }}/dist/* tmp_deploy/Feat2GS/
+          
+          # 确保有 .nojekyll
+          touch tmp_deploy/.nojekyll
+          
+          echo "Final Feat2GS contents:"
+          ls -la tmp_deploy/Feat2GS
 
       # 调试：查看最终部署内容
       - name: Debug deployment content

@@ -7,6 +7,7 @@ import react from "@astrojs/react";
 export default defineConfig({
   site: 'https://fanegg.github.io',
   base: '/Feat2GS',
+  outDir: './dist',
   integrations: [tailwind(), icon(), mdx(), react()],
   markdown: {
     shikiConfig: {
