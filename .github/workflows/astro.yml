@@ -6,25 +6,17 @@ on:
     paths:
       - 'Feat2GS/**'
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 env:
   BUILD_PATH: "Feat2GS"
 
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -48,10 +40,17 @@ jobs:
           npm run build
         working-directory: ${{ env.BUILD_PATH }}
 
+      - name: Prepare deployment
+        run: |
+          mkdir -p tmp_deploy
+          cp -r * tmp_deploy/
+          rm -rf tmp_deploy/Feat2GS/*
+          cp -r Feat2GS/dist/* tmp_deploy/Feat2GS/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ${{ env.BUILD_PATH }}/dist
+          path: tmp_deploy
 
   deploy:
     environment:
