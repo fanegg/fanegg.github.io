@@ -23,9 +23,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Get the code from repository
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Set up Node.js environment
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -33,38 +35,42 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ${{ env.BUILD_PATH }}/package-lock.json
 
+      # Install project dependencies
       - name: Install dependencies
         run: |
           cd ${{ env.BUILD_PATH }}
           npm ci
 
+      # Build the Astro project
       - name: Build with Astro
         run: |
           cd ${{ env.BUILD_PATH }}
           npm run build
 
+      # Prepare files for deployment
       - name: Prepare deployment
         run: |
-          # 创建临时目录
+          # Create temporary directory for deployment
           mkdir -p tmp_deploy
           
-          # 复制所有文件（除了 tmp_deploy 目录）
+          # Copy all files except tmp_deploy directory
           find . -maxdepth 1 ! -name 'tmp_deploy' -exec cp -r {} tmp_deploy/ \;
           
-          # 确保 Feat2GS 目录存在并清空
+          # Ensure Feat2GS directory exists and is empty
           rm -rf tmp_deploy/Feat2GS
           mkdir -p tmp_deploy/Feat2GS
           
-          # 复制构建输出到 Feat2GS 目录
+          # Copy build output to Feat2GS directory
           cp -r ${{ env.BUILD_PATH }}/dist/* tmp_deploy/Feat2GS/
           
-          # 确保有 .nojekyll 文件
+          # Add .nojekyll file to disable Jekyll processing
           touch tmp_deploy/.nojekyll
           
-          # 显示结果
+          # Display final directory structure
           echo "Final structure:"
           ls -la tmp_deploy/
 
+      # Upload the prepared files as artifact
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -77,6 +83,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
