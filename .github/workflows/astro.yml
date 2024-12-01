@@ -67,29 +67,23 @@ jobs:
           # 创建临时目录
           mkdir -p tmp_deploy
           
-          # 复制所有现有文件
-          cp -r * tmp_deploy/ || true
-          cp -r .nojekyll tmp_deploy/ || true
+          # 复制所有现有文件（包括隐藏文件）
+          cp -r . tmp_deploy/
           
           # 确保 Feat2GS 目录存在并清空
           rm -rf tmp_deploy/Feat2GS
           mkdir -p tmp_deploy/Feat2GS
           
-          # 复制构建输出
+          # 复制构建输出到 Feat2GS 目录
           cp -r ${{ env.BUILD_PATH }}/dist/* tmp_deploy/Feat2GS/
           
-          # 确保有 .nojekyll
+          # 确保有 .nojekyll 文件
           touch tmp_deploy/.nojekyll
           
-          echo "Final Feat2GS contents:"
-          ls -la tmp_deploy/Feat2GS
-
-      # 调试：查看最终部署内容
-      - name: Debug deployment content
-        run: |
-          echo "Final deployment contents:"
+          # 调试：显示目录结构
+          echo "Final directory structure:"
           ls -la tmp_deploy
-          echo "Feat2GS directory contents:"
+          echo "Feat2GS contents:"
           ls -la tmp_deploy/Feat2GS
 
       - name: Upload artifact
