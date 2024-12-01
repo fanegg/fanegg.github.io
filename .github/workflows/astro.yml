@@ -6,6 +6,15 @@ on:
     paths:
       - 'Feat2GS/**'
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 env:
   BUILD_PATH: "Feat2GS"
 
@@ -25,12 +34,6 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ${{ env.BUILD_PATH }}/package-lock.json
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Create .nojekyll file
-        run: touch .nojekyll
-
       - name: Install dependencies
         run: npm ci
         working-directory: ${{ env.BUILD_PATH }}
@@ -40,25 +43,31 @@ jobs:
           npm run build
         working-directory: ${{ env.BUILD_PATH }}
 
+      # 准备部署文件
       - name: Prepare deployment
         run: |
+          # 创建临时部署目录
           mkdir -p tmp_deploy
-          cp -r * tmp_deploy/
+          # 复制所有现有文件
+          cp -r * tmp_deploy/ || true
+          cp -r .nojekyll tmp_deploy/ || true
+          # 清理并更新 Feat2GS 目录
           rm -rf tmp_deploy/Feat2GS/*
           cp -r Feat2GS/dist/* tmp_deploy/Feat2GS/
+          # 确保有 .nojekyll 文件
+          touch tmp_deploy/.nojekyll
 
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: tmp_deploy
 
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
-    runs-on: ubuntu-latest
-    name: Deploy
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
