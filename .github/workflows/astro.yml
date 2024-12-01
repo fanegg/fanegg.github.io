@@ -45,12 +45,25 @@ jobs:
 
       - name: Prepare deployment
         run: |
+          # 创建临时目录
           mkdir -p tmp_deploy
-          cp -r . tmp_deploy/
+          
+          # 复制所有文件（除了 tmp_deploy 目录）
+          find . -maxdepth 1 ! -name 'tmp_deploy' -exec cp -r {} tmp_deploy/ \;
+          
+          # 确保 Feat2GS 目录存在并清空
           rm -rf tmp_deploy/Feat2GS
           mkdir -p tmp_deploy/Feat2GS
+          
+          # 复制构建输出到 Feat2GS 目录
           cp -r ${{ env.BUILD_PATH }}/dist/* tmp_deploy/Feat2GS/
+          
+          # 确保有 .nojekyll 文件
           touch tmp_deploy/.nojekyll
+          
+          # 显示结果
+          echo "Final structure:"
+          ls -la tmp_deploy/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
