@@ -1,7 +1,3 @@
-# Sample workflow for building and deploying an Astro site to GitHub Pages
-#
-# To get started with Astro see: https://docs.astro.build/en/getting-started/
-#
 name: Deploy Astro site to Pages
 
 on:
@@ -28,26 +24,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Detect package manager
-        id: detect-package-manager
-        run: |
-          if [ -f "${{ env.BUILD_PATH }}/yarn.lock" ]; then
-            echo "manager=yarn" >> $GITHUB_OUTPUT
-            echo "command=install" >> $GITHUB_OUTPUT
-            echo "runner=yarn" >> $GITHUB_OUTPUT
-            exit 0
-          elif [ -f "${{ env.BUILD_PATH }}/package.json" ]; then
-            echo "manager=npm" >> $GITHUB_OUTPUT
-            echo "command=ci" >> $GITHUB_OUTPUT
-            echo "runner=npx --no-install" >> $GITHUB_OUTPUT
-            exit 0
-          else
-            echo "Unable to determine package manager"
-            exit 1
-          fi
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -57,26 +33,44 @@ jobs:
           cache-dependency-path: ${{ env.BUILD_PATH }}/package-lock.json
 
       - name: Install dependencies
-        run: npm ci
-        working-directory: ${{ env.BUILD_PATH }}
+        run: |
+          cd ${{ env.BUILD_PATH }}
+          npm ci
 
       - name: Build with Astro
         run: |
+          cd ${{ env.BUILD_PATH }}
           npm run build
-        working-directory: ${{ env.BUILD_PATH }}
+
+      # 调试：查看构建输出
+      - name: Debug build output
+        run: |
+          echo "Feat2GS/dist contents:"
+          ls -la ${{ env.BUILD_PATH }}/dist
 
       # 准备部署文件
       - name: Prepare deployment
         run: |
+          # 创建临时目录
           mkdir -p tmp_deploy
+          # 复制现有文件
           cp -r * tmp_deploy/ || true
-          cp -r .nojekyll tmp_deploy/ || true
+          # 确保有 .nojekyll
+          touch tmp_deploy/.nojekyll
+          # 更新 Feat2GS 目录
           rm -rf tmp_deploy/Feat2GS
           mkdir -p tmp_deploy/Feat2GS
-          cp -r Feat2GS/dist/* tmp_deploy/Feat2GS/
-          touch tmp_deploy/.nojekyll
+          cp -r ${{ env.BUILD_PATH }}/dist/* tmp_deploy/Feat2GS/
 
-      - name: Upload Pages artifact
+      # 调试：查看最终部署内容
+      - name: Debug deployment content
+        run: |
+          echo "Final deployment contents:"
+          ls -la tmp_deploy
+          echo "Feat2GS directory contents:"
+          ls -la tmp_deploy/Feat2GS
+
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: tmp_deploy
