@@ -1,0 +1,40 @@
+---
+interface Props {
+  source: string;
+  className?: string;
+  controls?: boolean;
+}
+
+const { source, className = "", controls = true } = Astro.props;
+---
+
+<div class={`w-full flex justify-center ${className}`}>
+  <video
+    class="w-full h-auto rounded-lg"
+    muted
+    loop
+    {...controls && { controls }}
+  >
+    <source src={source} type="video/mp4" />
+  </video>
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const video = entry.target as HTMLVideoElement;
+      
+      if (entry.isIntersecting) {
+        video.play().catch(console.error);
+      } else {
+        video.pause();
+      }
+    });
+  }, {
+    threshold: 0.8
+  });
+
+  document.querySelectorAll('video').forEach(video => {
+    observer.observe(video);
+  });
+</script>

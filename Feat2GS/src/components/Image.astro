@@ -1,0 +1,21 @@
+---
+import { Image as AstroImage } from "astro:assets";
+
+interface Props {
+  source: ImageMetadata;
+  altText: string;
+  width?: number;
+  height?: number;
+  className?: string;
+}
+
+const { source, altText, width, height, className = "" } = Astro.props;
+---
+
+<AstroImage
+  class={`rounded-lg max-h-[35rem] w-max object-contain !px-0 ${className}`}
+  src={source}
+  alt={altText}
+  width={width}
+  height={height}
+/>

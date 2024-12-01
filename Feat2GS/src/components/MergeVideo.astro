@@ -1,0 +1,350 @@
+---
+interface Props {
+  videos: {
+    source: string;
+    label: string;
+    scene: string;
+    color?: string;
+  }[];
+  className?: string;
+  defaultLabel?: string;
+}
+
+const { videos, className = "", defaultLabel = "RGB" } = Astro.props;
+
+const scenes = [...new Set(videos.map(v => v.scene))];
+
+const defaultVideo = videos.find(v => v.scene === scenes[0] && v.label === defaultLabel);
+---
+
+<div 
+  class={`merge-video-container ${className}`}
+  data-default-label={defaultLabel}
+>
+  <div class="mb-4 flex gap-2 justify-center">
+    {scenes.map((scene) => (
+      <button
+        class="scene-selector px-4 py-2 text-sm font-bold border rounded-t-lg hover:bg-zinc-400 transition-colors"
+        data-scene={scene}
+      >
+        {scene}
+      </button>
+    ))}
+  </div>
+
+  <div class="video-container">
+    <video 
+      class="video opacity-0" 
+      width="100%"
+      id="materials"
+      loop 
+      playsinline 
+      autoplay
+      muted 
+      src={defaultVideo?.source}
+      onplay="resizeAndPlay(this)"
+    />
+    <canvas height="0" class="videoMerge" id="materialsMerge"></canvas>
+  </div>
+
+  <div class="flex flex-nowrap gap-1.5 justify-center mt-4">
+    {videos.map((video) => (
+      <button
+        class="video-selector px-3 py-1.5 text-sm font-bold border-2 rounded-full hover:bg-gray-100 transition-colors w-22 flex-shrink-0"
+        data-source={video.source}
+        data-label={video.label}
+        data-scene={video.scene}
+        data-color={video.color}
+        style={`border-color: ${video.color}`}
+      >
+        {video.label}
+      </button>
+    ))}
+  </div>
+</div>
+
+<script>
+  Number.prototype.clamp = function(min, max) {
+    return Math.min(Math.max(this, min), max);
+  };
+
+  function playVids(videoId) {
+    const videoMerge = document.getElementById(videoId + "Merge");
+    const vid = document.getElementById(videoId);
+
+    if (!videoMerge || !vid) {
+        console.error('Video elements not found');
+        return;
+    }
+
+    if (vid.readyState < 3) {
+        vid.addEventListener('canplay', () => playVids(videoId));
+        return;
+    }
+
+    let position = 0.5;
+    const vidWidth = vid.videoWidth/2;
+    const vidHeight = vid.videoHeight;
+
+    const mergeContext = videoMerge.getContext("2d");
+    
+    if (vid.readyState > 3) {
+      vid.play();
+
+      function trackLocation(e) {
+        const bcr = videoMerge.getBoundingClientRect();
+        position = ((e.pageX - bcr.x) / bcr.width);
+      }
+
+      function trackLocationTouch(e) {
+        const bcr = videoMerge.getBoundingClientRect();
+        position = ((e.touches[0].pageX - bcr.x) / bcr.width);
+      }
+
+      videoMerge.addEventListener("mousemove", trackLocation, false); 
+      videoMerge.addEventListener("touchstart", trackLocationTouch, false);
+      videoMerge.addEventListener("touchmove", trackLocationTouch, false);
+
+      function drawLoop() {
+        mergeContext.drawImage(vid, 0, 0, vidWidth, vidHeight, 0, 0, vidWidth, vidHeight);
+        const colStart = (vidWidth * position).clamp(0.0, vidWidth);
+        const colWidth = (vidWidth - (vidWidth * position)).clamp(0.0, vidWidth);
+        mergeContext.drawImage(vid, colStart+vidWidth, 0, colWidth, vidHeight, colStart, 0, colWidth, vidHeight);
+        
+        const scale = 0.6;
+        
+        const arrowLength = 0.09 * vidHeight * scale;
+        const arrowheadWidth = 0.025 * vidHeight * scale;
+        const arrowheadLength = 0.04 * vidHeight * scale;
+        const arrowPosY = vidHeight / 10;
+        const arrowWidth = 0.007 * vidHeight * scale;
+        const currX = vidWidth * position;
+
+        mergeContext.arc(currX, arrowPosY, arrowLength*0.7, 0, Math.PI * 2, false);
+        mergeContext.fillStyle = "#FFD79340";
+        mergeContext.fill();
+        
+        mergeContext.beginPath();
+        mergeContext.moveTo(vidWidth*position, 0);
+        mergeContext.lineTo(vidWidth*position, vidHeight);
+        mergeContext.closePath();
+        mergeContext.strokeStyle = "#AAAAAA";
+        mergeContext.lineWidth = 2;
+        mergeContext.stroke();
+
+        mergeContext.beginPath();
+        mergeContext.moveTo(currX, arrowPosY - arrowWidth/2);
+        mergeContext.lineTo(currX + arrowLength/2 - arrowheadLength/2, arrowPosY - arrowWidth/2);
+        mergeContext.lineTo(currX + arrowLength/2 - arrowheadLength/2, arrowPosY - arrowheadWidth/2);
+        mergeContext.lineTo(currX + arrowLength/2, arrowPosY);
+        mergeContext.lineTo(currX + arrowLength/2 - arrowheadLength/2, arrowPosY + arrowheadWidth/2);
+        mergeContext.lineTo(currX + arrowLength/2 - arrowheadLength/2, arrowPosY + arrowWidth/2);
+        mergeContext.lineTo(currX - arrowLength/2 + arrowheadLength/2, arrowPosY + arrowWidth/2);
+        mergeContext.lineTo(currX - arrowLength/2 + arrowheadLength/2, arrowPosY + arrowheadWidth/2);
+        mergeContext.lineTo(currX - arrowLength/2, arrowPosY);
+        mergeContext.lineTo(currX - arrowLength/2 + arrowheadLength/2, arrowPosY - arrowheadWidth/2);
+        mergeContext.lineTo(currX - arrowLength/2 + arrowheadLength/2, arrowPosY);
+        mergeContext.lineTo(currX - arrowLength/2 + arrowheadLength/2, arrowPosY - arrowWidth/2);
+        mergeContext.lineTo(currX, arrowPosY - arrowWidth/2);
+        mergeContext.closePath();
+        mergeContext.fillStyle = "#AAAAAA";
+        mergeContext.fill();
+
+        requestAnimationFrame(drawLoop);
+      }
+      requestAnimationFrame(drawLoop);
+    }
+  }
+
+    function resizeAndPlay(element) {
+    if (!element) {
+        console.error('Video element not found');
+        return;
+    }
+
+    const cv = document.getElementById(element.id + "Merge");
+    const container = element.parentElement;
+    
+    if (!cv || !container) {
+        console.error('Required elements not found');
+        return;
+    }
+
+    if (!element.videoWidth || !element.videoHeight) {
+        element.addEventListener('loadedmetadata', () => resizeAndPlay(element));
+        return;
+    }
+
+    cv.width = element.videoWidth/2;
+    cv.height = element.videoHeight;
+    
+    container.style.width = `${(element.videoWidth/2) * 0.5}px`;
+    container.style.height = `${element.videoHeight * 0.5}px`;
+    
+    element.play().catch(error => {
+        console.error('Error playing video:', error);
+    });
+    element.style.height = "0px";
+    element.classList.remove('opacity-0');
+
+    playVids(element.id);
+    }
+
+  class VideoController {
+    private container: Element;
+    private currentScene: string;
+    private currentVideo: HTMLVideoElement | null;
+    private currentCanvas: HTMLCanvasElement | null;
+
+    constructor(container: Element) {
+      this.container = container;
+      const firstSceneBtn = this.container.querySelector('.scene-selector');
+      this.currentScene = firstSceneBtn?.getAttribute('data-scene') || '';
+      this.currentVideo = this.container.querySelector('video');
+      this.currentCanvas = this.container.querySelector('canvas');
+      
+      this.init();
+    }
+
+    private init() {
+      const firstSceneBtn = this.container.querySelector('.scene-selector');
+      if (firstSceneBtn) {
+        firstSceneBtn.classList.add('bg-zinc-400', 'border-zinc-400', 'text-white');
+      }
+
+      if (this.currentVideo && this.currentVideo.src) {
+        this.currentVideo.load();
+        this.currentVideo.onloadedmetadata = () => {
+          resizeAndPlay(this.currentVideo);
+        };
+      }
+
+      this.bindEvents();
+      this.updateButtonStyles();
+    }
+
+    private bindEvents() {
+      this.container.querySelectorAll('.scene-selector').forEach((btn) => {
+        btn.addEventListener('click', () => this.handleSceneSelect(btn));
+      });
+
+      this.container.querySelectorAll('.video-selector').forEach((btn) => {
+        btn.addEventListener('click', () => this.handleVideoSelect(btn));
+      });
+    }
+
+    private handleSceneSelect(btn: Element) {
+      const scene = btn.getAttribute('data-scene') || '';
+      
+      this.container.querySelectorAll('.scene-selector').forEach((b) => {
+        b.classList.remove('bg-zinc-400', 'border-zinc-400', 'text-white');
+      });
+      btn.classList.add('bg-zinc-400', 'border-zinc-400', 'text-white');
+      
+      this.currentScene = scene;
+      
+      const defaultLabel = this.container.getAttribute('data-default-label');
+      const defaultBtn = this.container.querySelector(
+        `.video-selector[data-scene="${scene}"][data-label="${defaultLabel}"]`
+      );
+      
+      if (defaultBtn) {
+        this.handleVideoSelect(defaultBtn);
+      }
+      
+      this.updateButtonStyles();
+    }
+
+    private handleVideoSelect(button: Element) {
+      const source = button.getAttribute('data-source') || '';
+      if (this.currentVideo) {
+        const wasPlaying = !this.currentVideo.paused;
+        
+        this.currentVideo.src = source;
+        this.currentVideo.load();
+        
+        this.currentVideo.onloadedmetadata = () => {
+          if (this.currentVideo) {
+            if (this.currentCanvas) {
+              this.currentCanvas.width = 0;
+              this.currentCanvas.height = 0;
+            }
+            
+            resizeAndPlay(this.currentVideo);
+            
+            if (wasPlaying) {
+              this.currentVideo.play();
+            }
+          }
+        };
+      }
+      this.updateButtonStyles();
+    }
+
+    private updateButtonStyles() {
+      this.container.querySelectorAll('.video-selector').forEach((btn) => {
+        const btnScene = btn.getAttribute('data-scene') || '';
+        const source = btn.getAttribute('data-source') || '';
+        const color = btn.getAttribute('data-color') || '#a1a1aa';
+        const isCurrentVideo = this.currentVideo?.src.endsWith(source);
+        
+        btn.classList.toggle('hidden', btnScene !== this.currentScene);
+        
+        if (isCurrentVideo) {
+          btn.style.backgroundColor = color;
+          btn.style.borderColor = color;
+          btn.classList.add('text-white');
+        } else {
+          btn.style.backgroundColor = '';
+          btn.style.borderColor = color;
+          btn.classList.remove('text-white');
+        }
+      });
+    }
+  }
+
+  document.querySelectorAll('.merge-video-container').forEach(container => {
+    new VideoController(container);
+  });
+
+  window.resizeAndPlay = resizeAndPlay;
+</script>
+
+<style>
+  .video-container {
+    position: relative;
+    margin: 0 auto;
+  }
+
+  .video {
+    width: 100%;
+    transition: opacity 0.3s ease;
+  }
+
+  .videoMerge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: col-resize;
+  }
+
+  .video-selector {
+    display: none;
+  }
+  
+  .video-selector:not(.hidden) {
+    display: inline-block;
+  }
+
+  .scene-selector {
+    background: transparent;
+    color: #666;
+  }
+
+  .scene-selector.active {
+    background-color: #666;
+    color: white;
+  }
+</style>

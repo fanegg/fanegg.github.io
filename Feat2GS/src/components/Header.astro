@@ -1,0 +1,35 @@
+---
+import type { Author, Note, Link, Institution } from "../types/types";
+import Links from "./Links.astro";
+import Authors from "./Authors.astro";
+import Notes from "./Notes.astro";
+import Institute from "./Institute.astro";
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  authors: Author[];
+  institutions?: Institution[];
+  conference?: string;
+  notes?: Note[];
+  links: Link[];
+}
+
+const { title, subtitle, authors, institutions, conference, notes, links } = Astro.props as Props;
+---
+<header class="flex flex-col gap-6 items-center mb-6">
+  <div class="flex flex-col gap-2 items-center">
+    <!-- <h1>{title}</h1> -->
+    <h1><span class="text-[#E0933F]">Feat</span><span class="text-[#B24C33]">2</span><span class="text-[#E0933F]">GS</span></h1>
+    {subtitle && <h1 class="text-3xl font-normal">{subtitle}</h1>}
+  </div>
+  <div class="flex flex-col gap-4 items-center">
+    <Authors authors={authors} />
+    {institutions && <Institute institutions={institutions} />}
+  </div>
+  <div class="flex flex-col gap-4 items-center">
+    {conference && <p class="text-center">{conference}</p>}
+    {notes && <Notes notes={notes} />}
+    {links && <Links links={links} />}
+  </div>
+</header>

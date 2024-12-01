@@ -1,0 +1,38 @@
+---
+type Institution = {
+  symbol: string;
+  name: string;
+}
+
+interface Props {
+  institutions: Institution[];
+}
+
+const { institutions } = Astro.props;
+---
+
+<div class="flex flex-col gap-1 text-center">
+  <p>
+    {institutions.slice(0, 2).map((inst, index) => (
+      <span>
+        <sup>{inst.symbol}</sup>{inst.name}
+        {index < 1 && ', '}
+      </span>
+    ))}
+  </p>
+  <p>
+    {institutions.slice(2, 3).map((inst) => (
+      <span>
+        <sup>{inst.symbol}</sup>{inst.name}
+      </span>
+    ))}
+  </p>
+  <p>
+    {institutions.slice(3).map((inst, index, array) => (
+      <span>
+        <sup>{inst.symbol}</sup>{inst.name}
+        {index < array.length - 1 && ', '}
+      </span>
+    ))}
+  </p>
+</div>

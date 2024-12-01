@@ -1,0 +1,18 @@
+---
+interface Props {
+  icon?: string;
+  title?: string;
+}
+
+const { icon = "💡", title = "" } = Astro.props;
+---
+
+<div class="bg-gray-100 rounded-lg p-6 my-4">
+  <div class="flex items-center gap-3">
+    <span class="text-2xl">{icon}</span>
+    {title && <h3 class="w-full text-2xl font-bold" style="font-variant: small-caps;">{title}</h3>}
+  </div>
+  <div class="mt-3 space-y-2 text-gray-700">
+    <slot />
+  </div>
+</div>
