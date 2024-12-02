@@ -189,6 +189,11 @@ const defaultVideo2 = videos.find(v => v.scene === scenes[0] && v.label === defa
           
           video1.load();
           video2.load();
+
+          Promise.all([
+            video1.play().catch(console.error),
+            video2.play().catch(console.error)
+          ]);
         }
       }
     }
@@ -266,7 +271,6 @@ const defaultVideo2 = videos.find(v => v.scene === scenes[0] && v.label === defa
         const video2 = this.container.querySelector('.video2') as HTMLVideoElement;
         
         if (video1 && video2) {
-          // 添加 IntersectionObserver
           const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
               if (entry.isIntersecting && entry.intersectionRatio >= 0.8) {

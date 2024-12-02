@@ -23,7 +23,6 @@ import dift_scan48 from "../assets/metric3d/dift_DTU_scan48_spiral.mp4";
 import iuvrgb_scan48 from "../assets/metric3d/iuvrgb_DTU_scan48_spiral.mp4";
 
 export const Metric3dData = [
-  // scan1 视频
   {
     source: dust3r_scan1,
     label: "DUSt3R",
@@ -91,7 +90,6 @@ export const Metric3dData = [
     color: "#E9E5E5"
   },
 
-  // scan48 视频
   {
     source: dust3r_scan48,
     label: "DUSt3R",
