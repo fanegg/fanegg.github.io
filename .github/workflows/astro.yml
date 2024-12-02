@@ -3,9 +3,9 @@ name: GitHub Pages
 on:
   push:
     branches: ["main"]
-    paths:
-      - 'Feat2GS/**'
-      - '.github/workflows/**'
+    # paths:
+    #   - 'Feat2GS/**'
+    #   - '.github/workflows/**'
 
 permissions:
   contents: read
