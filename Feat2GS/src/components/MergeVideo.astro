@@ -191,12 +191,23 @@ const defaultVideo = videos.find(v => v.scene === scenes[0] && v.label === defau
     cv.width = element.videoWidth/2;
     cv.height = element.videoHeight;
     
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.8) {
+          element.play().catch(console.error);
+        } else {
+          element.pause();
+        }
+      });
+    }, {
+      threshold: 0.8
+    });
+
+    observer.observe(container);
+    
     container.style.width = `${(element.videoWidth/2) * 0.5}px`;
     container.style.height = `${element.videoHeight * 0.5}px`;
     
-    element.play().catch((error: Error) => {
-        console.error('Error playing video:', error);
-    });
     element.style.height = "0px";
     element.classList.remove('opacity-0');
 

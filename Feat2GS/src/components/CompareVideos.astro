@@ -266,16 +266,31 @@ const defaultVideo2 = videos.find(v => v.scene === scenes[0] && v.label === defa
         const video2 = this.container.querySelector('.video2') as HTMLVideoElement;
         
         if (video1 && video2) {
+          // 添加 IntersectionObserver
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting && entry.intersectionRatio >= 0.8) {
+                video1.play().catch(console.error);
+                video2.play().catch(console.error);
+              } else {
+                video1.pause();
+                video2.pause();
+              }
+            });
+          }, {
+            threshold: 0.8
+          });
+
+          observer.observe(video1.parentElement as Element);
+          
           video1.addEventListener('loadeddata', () => {
             video1.classList.add('opacity-100');
             video1.parentElement?.querySelector('.loading-indicator')?.classList.add('hidden');
-            video1.play().catch(console.error);
           });
           
           video2.addEventListener('loadeddata', () => {
             video2.classList.add('opacity-100');
             video2.parentElement?.querySelector('.loading-indicator')?.classList.add('hidden');
-            video2.play().catch(console.error);
           });
           
           this.setupVideoSync(video1, video2);
