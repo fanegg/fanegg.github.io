@@ -20,6 +20,7 @@ import Image from "../components/Image.astro";
 import TwoColumns from "../components/TwoColumns.astro";
 import YouTubeVideo from "../components/YouTubeVideo.astro";
 import LaTeX from "../components/LaTeX.astro";
+import RadarChart from '../components/RadarChart.astro';
 
 import CompareVideos from "../components/CompareVideos.astro";
 import MergeVideo from '../components/MergeVideo.astro';
@@ -114,7 +115,9 @@ import { ApplicationData } from "../data/Application.js";
   <YouTubeVideo videoId="wjZofJX0v4M" />
 
 ## Average for Novel View Synthesis across six datasets
-<Image source={spider} altText="Spider" className="w-full mx-auto"/>
+<RadarChart className="my-8" />
+
+{/* <Image source={spider} altText="Spider" className="w-full mx-auto"/> */}
 
 ## Novel View Synthesis _aligns well with_ Pointcloud Error Map
 <CompareVideos videos={Metric3dData} className="w-1/2 mx-auto" />
@@ -130,6 +133,7 @@ import { ApplicationData } from "../data/Application.js";
 
 ## Application
 <MergeVideo videos={ApplicationData} />
+
 
 ## BibTeX citation
 

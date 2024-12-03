@@ -1,0 +1,584 @@
+---
+interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+---
+
+<div class="flex flex-col items-center gap-4 -mb-10">
+    <div class="flex justify-center gap-8">
+        <!-- 3D Models -->
+        <div class="relative">
+            <div class="w-64 px-4 py-3 bg-white border-2 rounded-lg flex items-center justify-between data-[active=true]:hover:border-[#871510] data-[active=false]:border-gray-200 transition-colors"
+            data-active="true">
+                <button id="3d-btn" 
+                        class="font-bold transition-colors data-[active=true]:text-[#871510] data-[active=false]:text-gray-400 hover:text-[#871510]" 
+                        data-active="true">
+                        3D Models
+                </button>
+            <button id="3d-dropdown-btn" 
+                    class="p-1.5 text-gray-600 hover:text-[#871510] hover:bg-[#87151022] rounded-full transition-colors"
+                    aria-expanded="false">
+              <svg class="w-4 h-4 transition-transform duration-200" 
+                   viewBox="0 0 20 20" 
+                   fill="currentColor">
+                <path fill-rule="evenodd" 
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" 
+                      clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        <div class="absolute z-10 w-full mt-1 bg-white border rounded-lg shadow-lg opacity-0 invisible transition-all duration-200 transform -translate-y-2"
+             id="3d-dropdown">
+          <div class="p-2 space-y-1">
+            <label class="flex items-center w-full px-3 py-2 rounded hover:bg-gray-50 cursor-pointer">
+              <input type="checkbox" name="3d-point" value="point" class="w-4 h-4 mr-3" checked>
+              <span>Point Regression (DUSt3R, MASt3R)</span>
+            </label>
+            <label class="flex items-center w-full px-3 py-2 rounded hover:bg-gray-50 cursor-pointer">
+              <input type="checkbox" name="3d-depth" value="depth" class="w-4 h-4 mr-3" checked>
+              <span>Depth Estimation (MiDaS)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+  
+    <!-- 2D Models -->
+    <div class="relative">
+        <div class="w-64 px-4 py-3 bg-white border-2 rounded-lg flex items-center justify-between data-[active=true]:hover:border-[#E19645] data-[active=false]:border-gray-200 transition-colors"
+        data-active="true">
+            <button id="2d-btn" 
+                    class="font-bold transition-colors data-[active=true]:text-[#E19645] data-[active=false]:text-gray-400 hover:text-[#E19645]" 
+                    data-active="true">
+                    2D Models
+            </button>
+          <button id="2d-dropdown-btn" 
+                  class="p-1.5 text-gray-600 hover:text-[#E19645] hover:bg-[#E1964522] rounded-full transition-colors"
+                  aria-expanded="false">
+            <svg class="w-4 h-4 transition-transform duration-200" 
+                viewBox="0 0 20 20" 
+                fill="currentColor">
+            <path fill-rule="evenodd" 
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" 
+                    clip-rule="evenodd" />
+            </svg>
+        </button>
+        </div>
+        <div class="absolute z-10 w-full mt-1 bg-white border rounded-lg shadow-lg opacity-0 invisible transition-all duration-200 transform -translate-y-2"
+             id="2d-dropdown">
+          <div class="p-2 space-y-1">
+            <label class="flex items-center w-full px-3 py-2 rounded hover:bg-gray-50 cursor-pointer">
+              <input type="checkbox" name="2d-self-distillation" value="self-distillation" class="w-4 h-4 mr-3" checked>
+              <span>Self Distillation (DINOv2, DINO)</span>
+            </label>
+            <label class="flex items-center w-full px-3 py-2 rounded hover:bg-gray-50 cursor-pointer">
+              <input type="checkbox" name="2d-segmentation" value="segmentation" class="w-4 h-4 mr-3" checked>
+              <span>Segmentation (SAM)</span>
+            </label>
+            <label class="flex items-center w-full px-3 py-2 rounded hover:bg-gray-50 cursor-pointer">
+              <input type="checkbox" name="2d-contrastive-vlm" value="contrastive-vlm" class="w-4 h-4 mr-3" checked>
+              <span>Contrastive VLM (CLIP)</span>
+            </label>
+            <label class="flex items-center w-full px-3 py-2 rounded hover:bg-gray-50 cursor-pointer">
+              <input type="checkbox" name="2d-multi-teacher" value="multi-teacher" class="w-4 h-4 mr-3" checked>
+              <span>Multi-teacher Distillation (RADIO)</span>
+            </label>
+            <label class="flex items-center w-full px-3 py-2 rounded hover:bg-gray-50 cursor-pointer">
+              <input type="checkbox" name="2d-image-reconstruction" value="image-reconstruction" class="w-4 h-4 mr-3" checked>
+              <span>Image Reconstruction (MAE)</span>
+            </label>
+            <label class="flex items-center w-full px-3 py-2 rounded hover:bg-gray-50 cursor-pointer">
+              <input type="checkbox" name="2d-denoising-vlm" value="denoising-vlm" class="w-4 h-4 mr-3" checked>
+              <span>Denoising VLM (SD)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class={`w-full flex justify-center ${className}`}>
+  <div id="radarChart" class="w-full h-[600px]"></div>
+</div>
+
+<div class="flex items-center gap-8 -mt-20 text-lg font-['Comic_Sans_MS']">
+    <span>
+      <span class="font-bold" style="color: #9A6500;">G</span>
+      <span>= Geometry Probing</span>
+    </span>
+    <span>
+      <span class="font-bold" style="color: #564668;">T</span>
+      <span>= Texture Probing</span>
+    </span>
+    <span>
+      <span class="font-bold" style="color: #444B0B;">A</span>
+      <span>= Geometry & Texture Probing</span>
+    </span>
+  </div>
+  
+<script>
+  import * as echarts from 'echarts';
+
+  const indicators = [
+    { name: '{gb|G}-{g|LPIPS}', max: 1 },
+    { name: '{gb|G}-{g|SSIM}', max: 1 },
+    { name: '{gb|G}-{g|PSNR}', max: 1 },
+    { name: '{ab|A}-{a|LPIPS}', max: 1 },
+    { name: '{ab|A}-{a|SSIM}', max: 1 },
+    { name: '{ab|A}-{a|PSNR}', max: 1 },
+    { name: '{tb|T}-{t|LPIPS}', max: 1 },
+    { name: '{tb|T}-{t|SSIM}', max: 1 },
+    { name: '{tb|T}-{t|PSNR}', max: 1 }
+  ];
+
+  interface DataType {
+    [key: string]: number[];
+  }
+
+  const actualData: DataType = {
+    DUSt3R: [0.3247, 0.6469, 19.6568, 0.3775, 0.6428, 19.5831, 0.3285, 0.5948, 18.0102],
+    MASt3R: [0.3228, 0.6477, 19.6734, 0.3754, 0.6460, 19.6574, 0.3276, 0.5961, 18.0768],
+    MiDaS: [0.3319, 0.6428, 19.5503, 0.3801, 0.6382, 19.4230, 0.3288, 0.5950, 17.9961],
+    DINOv2: [0.3364, 0.6486, 19.5887, 0.3760, 0.6388, 19.4999, 0.3291, 0.5951, 18.0333],
+    DINO: [0.3256, 0.6452, 19.6261, 0.3793, 0.6427, 19.5550, 0.3282, 0.5961, 18.0327],
+    SAM: [0.3345, 0.6392, 19.5225, 0.3731, 0.6379, 19.4365, 0.3279, 0.5966, 17.9889],
+    CLIP: [0.3331, 0.6436, 19.6079, 0.3832, 0.6416, 19.5039, 0.3289, 0.5947, 18.0971],
+    RADIO: [0.3143, 0.6513, 19.7258, 0.4051, 0.6407, 19.4929, 0.3301, 0.5944, 18.1306],
+    MAE: [0.3317, 0.6408, 19.5036, 0.3730, 0.6404, 19.4952, 0.3276, 0.5967, 18.0039],
+    SD: [0.3350, 0.6382, 19.4414, 0.3760, 0.6357, 19.3225, 0.3325, 0.5931, 17.8103]
+  };
+
+  const modelData: DataType = {
+    DUSt3R: [0.5771, 0.6953, 0.7815, 0.8755, 0.7179, 0.8003, 0.8313, 0.5265, 0.6616],
+    MASt3R: [0.6546, 0.7519, 0.8342, 0.9325, 1.0000, 1.0000, 1.0000, 0.8403, 0.8488],
+    MiDaS: [0.2837, 0.4171, 0.4447, 0.8021, 0.3165, 0.3701, 0.7679, 0.5825, 0.6222],
+    DINOv2: [0.1000, 0.2663, 0.5660, 0.9164, 0.3668, 0.5767, 0.7241, 0.6120, 0.7264],
+    DINO: [0.5404, 0.5826, 0.6844, 0.8230, 0.7144, 0.7246, 0.8900, 0.8529, 0.7249],
+    SAM: [0.1785, 0.1701, 0.3565, 0.9981, 0.2909, 0.4063, 0.9434, 0.9850, 0.6018],
+    CLIP: [0.2356, 0.4709, 0.6267, 0.7158, 0.6130, 0.5875, 0.7549, 0.5117, 0.9057],
+    RADIO: [1.0000, 1.0000, 1.0000, 0.1000, 0.5372, 0.5578, 0.5279, 0.4246, 1.0000],
+    MAE: [0.2897, 0.2803, 0.2969, 1.0000, 0.5129, 0.5640, 0.9871, 1.0000, 0.6441],
+    SD: [0.1553, 0.1000, 0.1000, 0.9160, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000],
+  };
+
+  interface ColorType {
+    [key: string]: string;
+  }
+
+  const colors: ColorType = {
+    DUSt3R: '#B2CBC2',
+    MASt3R: '#BBC990',
+    MiDaS: '#6B859E',
+    DINOv2: '#B45342',
+    DINO: '#DCAC99',
+    SAM: '#6F936B',
+    CLIP: '#EBA062',
+    RADIO: '#FED273',
+    MAE: '#9A8EB4',
+    SD: '#706052',
+  };
+
+  interface ModelGroupType {
+    [key: string]: {
+      [key: string]: string[];
+    };
+  }
+
+  const modelGroups: ModelGroupType = {
+      '3d': {
+        'all': ['DUSt3R', 'MASt3R', 'MiDaS'],
+        'point': ['DUSt3R', 'MASt3R'],
+        'depth': ['MiDaS']
+      },
+      '2d': {
+        'self-distillation': ['DINOv2', 'DINO'],
+        'segmentation': ['SAM'],
+        'contrastive-vlm': ['CLIP'],
+        'multi-teacher': ['RADIO'],
+        'image-reconstruction': ['MAE'],
+        'denoising-vlm': ['SD']
+      }
+    };
+  
+  const initChart = () => {
+    const chartDom = document.getElementById('radarChart');
+    if (!chartDom) return;
+    
+    const myChart = echarts.init(chartDom);
+
+    const option = {
+        grid: {
+            right: '20%' 
+        },
+        legend: {
+            orient: 'vertical',
+            right: 50,
+            top: 'middle',
+            padding: [10, 10, 10, 10],
+            borderWidth: 1,  // 边框宽度
+            borderColor: '#ccc',  // 边框颜色
+            borderRadius: 4,  // 边框圆角
+            backgroundColor: '#fff',  // 背景色
+            data: Object.keys(modelData),
+            textStyle: {
+                fontSize: 14,
+                fontFamily: 'Comic Sans MS'
+            },
+            icon: 'circle',
+            itemWidth: 14,
+            itemHeight: 14,
+            itemGap: 15,
+            selected: Object.keys(modelData).reduce((acc: { [key: string]: boolean }, curr) => {
+            acc[curr] = true;
+            return acc;
+            }, {} as { [key: string]: boolean })
+        },
+        toolbox: {
+            show: true,
+            right: 50,
+            top: 425,
+            feature: {
+                myTool: {
+                    show: true,
+                    title: 'Select/Deselect All',
+                    icon: 'path://M432.45,595.444c0,2.177-4.661,6.82-11.305,6.82c-6.475,0-11.306-4.567-11.306-6.82s4.852-6.812,11.306-6.812C427.841,588.632,432.452,593.191,432.45,595.444L432.45,595.444z M421.155,589.876c-3.009,0-5.448,2.495-5.448,5.572s2.439,5.572,5.448,5.572c3.01,0,5.449-2.495,5.449-5.572C426.604,592.371,424.165,589.876,421.155,589.876L421.155,589.876z M421.146,591.891c-1.916,0-3.47,1.589-3.47,3.549c0,1.959,1.554,3.548,3.47,3.548s3.469-1.589,3.469-3.548C424.614,593.479,423.062,591.891,421.146,591.891L421.146,591.891zM421.146,591.891',
+                    onclick: function() {
+                        const allSelected = !Object.values((myChart.getOption() as any).legend[0].selected).every(v => v);
+                        const newSelected: { [key: string]: boolean } = {};
+                        Object.keys(modelData).forEach(key => {
+                            newSelected[key] = allSelected;
+                        });
+                        myChart.setOption({
+                            legend: { selected: newSelected }
+                        });
+                    }
+                }
+            },
+            itemSize: 15, 
+            itemGap: 10,
+            orient: 'horizontal',
+        },
+        tooltip: {
+            trigger: 'item',
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            borderColor: '#ccc',
+            borderWidth: 1,
+            textStyle: {
+                color: '#333',
+                fontFamily: 'Comic Sans MS'
+            },
+            formatter: function(params: { name: string }) {
+                const modelName = params.name;
+                const realValues = actualData[modelName];
+                
+                let result = `<span style="color: ${colors[modelName]}; font-size: 16px; text-shadow: 1px 1px 2px #000;"><b>${modelName}</b></span><br/>`;
+                
+                // 按G、T、A的顺序显示指标
+                indicators.forEach((indicator, index) => {
+                    const cleanName = indicator.name.replace(/{[^}]+\|/g, '').replace(/}/g, '');
+                    const firstLetter = cleanName[0];
+                    if (firstLetter === 'G') {
+                        result += `<span style="color: #9A6500"><b>G</b>${cleanName.slice(1)}</span>: ${realValues[index].toFixed(4)}<br/>`;
+                    }
+                });
+                
+                indicators.forEach((indicator, index) => {
+                    const cleanName = indicator.name.replace(/{[^}]+\|/g, '').replace(/}/g, '');
+                    const firstLetter = cleanName[0];
+                    if (firstLetter === 'T') {
+                        result += `<span style="color: #564668"><b>T</b>${cleanName.slice(1)}</span>: ${realValues[index].toFixed(4)}<br/>`;
+                    }
+                });
+                
+                indicators.forEach((indicator, index) => {
+                    const cleanName = indicator.name.replace(/{[^}]+\|/g, '').replace(/}/g, '');
+                    const firstLetter = cleanName[0];
+                    if (firstLetter === 'A') {
+                        result += `<span style="color: #444B0B"><b>A</b>${cleanName.slice(1)}</span>: ${realValues[index].toFixed(4)}<br/>`;
+                    }
+                });
+                
+                return result;
+            }
+        },
+        radar: {
+            indicator: indicators,
+            shape: 'polygon',
+            startAngle: 110,
+            splitNumber: 4,
+        axisName: {
+            fontSize: 14,
+          fontFamily: 'Comic Sans MS',
+          rich: {
+            g: {
+              color: '#9A6500',
+              fontSize: 14,
+              fontFamily: 'Comic Sans MS'
+            },
+            gb: {
+              color: '#9A6500',
+              fontWeight: 'bold',
+              fontSize: 14,
+              fontFamily: 'Comic Sans MS'
+            },
+            t: {
+              color: '#564668',
+              fontSize: 14,
+              fontFamily: 'Comic Sans MS'
+            },
+            tb: {
+              color: '#564668',
+              fontWeight: 'bold',
+              fontSize: 14,
+              fontFamily: 'Comic Sans MS'
+            },
+            a: {
+              color: '#444B0B',
+              fontSize: 14,
+              fontFamily: 'Comic Sans MS'
+            },
+            ab: {
+              color: '#444B0B',
+              fontWeight: 'bold',
+              fontSize: 14,
+              fontFamily: 'Comic Sans MS'
+            }
+          }
+        },
+        axisLine: {
+          lineStyle: {
+            type: 'dashed',
+            width: 1.5,
+            color: 'rgba(128, 128, 128, 0.4)'
+          }
+        },
+        splitLine: {
+          lineStyle: {
+            type: 'dashed',
+            width: 1.5,
+            color: 'rgba(128, 128, 128, 0.4)'
+          }
+        },
+        splitArea: {
+          areaStyle: {
+            color: '#f0f0f0',
+            opacity: 0.2
+          }
+        }
+      },
+      series: [{
+        type: 'radar',
+        symbol: 'circle',
+        symbolSize: 8,
+        animation: true,
+        animationDuration: 300,
+        animationEasing: 'cubicOut',
+        z: 2,
+        data: Object.keys(modelData).map(key => ({
+          name: key,
+          value: modelData[key],
+          lineStyle: {
+            color: colors[key],
+            width: 2
+          },
+          areaStyle: {
+            color: colors[key],
+            opacity: 0.15
+          },
+          itemStyle: {
+            color: colors[key],
+            borderWidth: 1
+          },
+          emphasis: {
+            focus: 'series',
+            scale: true,
+            lineStyle: {
+              width: 6,
+            //   shadowBlur: 2
+            },
+            itemStyle: {
+              borderWidth: 6,
+              color: colors[key],
+            //   shadowBlur: 2
+            }
+          }
+        }))
+      }]
+    };
+
+    myChart.setOption(option);
+    // 下拉菜单状态管理
+    const toggleDropdown = (prefix: string, show: boolean) => {
+      const dropdownBtn = document.getElementById(`${prefix}-dropdown-btn`);
+      const dropdown = document.getElementById(`${prefix}-dropdown`);
+      const arrow = dropdownBtn?.querySelector('svg');
+      
+      if (dropdownBtn && dropdown && arrow) {
+        dropdownBtn.setAttribute('aria-expanded', show.toString());
+        arrow.style.transform = show ? 'rotate(-180deg)' : '';
+        
+        if (show) {
+          dropdown.classList.remove('invisible', 'opacity-0', '-translate-y-2');
+        } else {
+          dropdown.classList.add('invisible', 'opacity-0', '-translate-y-2');
+        }
+      }
+    };
+
+    // 更新图表显示
+    const updateChart = () => {
+      const selected3dTypes = Array.from(document.querySelectorAll('input[name^="3d-"]:checked'))
+        .map(cb => (cb as HTMLInputElement).value);
+      
+      const selected2dTypes = Array.from(document.querySelectorAll('input[name^="2d-"]:checked'))
+        .map(cb => (cb as HTMLInputElement).value);
+
+      const selected3dModels = selected3dTypes.flatMap(type => modelGroups['3d'][type] || []);
+      const selected2dModels = selected2dTypes.flatMap(type => modelGroups['2d'][type] || []);
+
+      const newSelected = Object.keys(modelData).reduce((acc, curr) => {
+        acc[curr] = selected3dModels.includes(curr) || selected2dModels.includes(curr);
+        return acc;
+      }, {} as { [key: string]: boolean });
+
+      myChart.setOption({
+        legend: { selected: newSelected }
+      });
+    };
+
+    // 更新复选框状态并触发图表更新
+    const updateCheckboxesAndChart = (prefix: string, checked: boolean) => {
+      (document.querySelectorAll(`input[name^="${prefix}-"]`) as NodeListOf<HTMLInputElement>).forEach(checkbox => {
+        checkbox.checked = checked;
+      });
+      updateChart();
+    };
+
+    // 主按钮点击处理（只处理选中状态）
+    const handleMainButtonClick = (e: Event) => {
+        const btn = e.currentTarget as HTMLElement;
+        const prefix = btn.id.split('-')[0];
+        const currentState = btn.getAttribute('data-active') === 'true';
+        const newState = !currentState;
+        
+        btn.setAttribute('data-active', newState.toString());
+        // 同时更新外层div的data-active属性
+        btn.closest('div.border-2')?.setAttribute('data-active', newState.toString());
+        updateCheckboxesAndChart(prefix, newState);
+        };
+
+    // 下拉按钮点击处理（只处理下拉菜单）
+    const handleDropdownButtonClick = (e: Event) => {
+      e.stopPropagation();
+      const btn = e.currentTarget as HTMLElement;
+      const prefix = btn.id.split('-')[0];
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      
+      // 关闭其他下拉菜单
+      ['3d', '2d'].forEach(p => {
+        if (p !== prefix) {
+          toggleDropdown(p, false);
+        }
+      });
+
+      // 切换当前下拉菜单
+      toggleDropdown(prefix, !isExpanded);
+    };
+
+    // 复选框变化事件处理
+    const handleCheckboxChange = (e: Event) => {
+      const checkbox = e.target as HTMLInputElement;
+      const prefix = checkbox.name.split('-')[0];
+      const btn = document.getElementById(`${prefix}-btn`);
+      
+      if (btn) {
+        // 检查该组中是否有任何复选框被选中
+        const hasChecked = Array.from(document.querySelectorAll(`input[name^="${prefix}-"]`))
+          .some(cb => (cb as HTMLInputElement).checked);
+        
+        btn.setAttribute('data-active', hasChecked.toString());
+      }
+      
+      updateChart();
+    };
+
+    // 点击外部关闭下拉菜单
+    const handleOutsideClick = (e: Event) => {
+      const target = e.target as HTMLElement;
+      const isDropdownClick = target.closest('[id$="-dropdown-btn"]') || target.closest('[id$="-dropdown"]');
+      
+      if (!isDropdownClick) {
+        ['3d', '2d'].forEach(prefix => {
+          toggleDropdown(prefix, false);
+        });
+      }
+    };
+
+    // 绑定事件监听器
+    ['3d-btn', '2d-btn'].forEach(btnId => {
+      const btn = document.getElementById(btnId);
+      if (btn) {
+        btn.addEventListener('click', handleMainButtonClick);
+      }
+    });
+
+    ['3d-dropdown-btn', '2d-dropdown-btn'].forEach(btnId => {
+      const btn = document.getElementById(btnId);
+      if (btn) {
+        btn.addEventListener('click', handleDropdownButtonClick);
+      }
+    });
+
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      checkbox.addEventListener('change', handleCheckboxChange);
+    });
+
+    document.addEventListener('click', handleOutsideClick);
+
+    // 响应式处理
+    const resizeObserver = new ResizeObserver(() => {
+      myChart.resize();
+    });
+
+    resizeObserver.observe(chartDom);
+
+    // 初始更新
+    updateChart();
+
+    // 清理函数
+    return () => {
+      ['3d-btn', '2d-btn'].forEach(btnId => {
+        const btn = document.getElementById(btnId);
+        if (btn) {
+          btn.removeEventListener('click', handleMainButtonClick);
+        }
+      });
+
+      ['3d-dropdown-btn', '2d-dropdown-btn'].forEach(btnId => {
+        const btn = document.getElementById(btnId);
+        if (btn) {
+          btn.removeEventListener('click', handleDropdownButtonClick);
+        }
+      });
+
+      document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.removeEventListener('change', handleCheckboxChange);
+      });
+
+      document.removeEventListener('click', handleOutsideClick);
+      resizeObserver.disconnect();
+      myChart.dispose();
+    };
+  };
+
+  // 当DOM加载完成后初始化图表
+  document.addEventListener('DOMContentLoaded', () => {
+    const cleanup = initChart();
+    
+    // 在页面卸载时清理资源
+    window.addEventListener('unload', () => {
+      if (cleanup) cleanup();
+    });
+  });
+</script>
