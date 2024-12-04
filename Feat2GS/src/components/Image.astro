@@ -12,12 +12,10 @@ interface Props {
 const { source, altText, width, height, className = "" } = Astro.props;
 ---
 
-<div class={`w-full flex justify-center ${className}`}>
-  <AstroImage
-    class="w-full h-auto rounded-lg object-contain"
-    src={source}
-    alt={altText}
-    width={width}
-    height={height}
-  />
-</div>
+<AstroImage
+  class={`rounded-lg max-h-[35rem] w-max object-contain !px-0 ${className}`}
+  src={source}
+  alt={altText}
+  width={width}
+  height={height}
+/>
