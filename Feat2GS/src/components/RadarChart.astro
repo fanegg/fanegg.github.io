@@ -10,16 +10,16 @@ const { className = "" } = Astro.props;
     <div class="flex justify-center gap-8">
         <!-- 3D Models -->
         <div class="relative">
-            <div class="w-64 px-4 py-3 bg-white border-2 rounded-lg flex items-center justify-between data-[active=true]:hover:border-[#871510] data-[active=false]:border-gray-200 transition-colors"
-            data-active="true">
-                <button id="3d-btn" 
-                        class="font-bold transition-colors data-[active=true]:text-[#871510] data-[active=false]:text-gray-400 hover:text-[#871510]" 
-                        data-active="true">
-                        3D Models
-                </button>
-            <button id="3d-dropdown-btn" 
-                    class="p-1.5 text-gray-600 hover:text-[#871510] hover:bg-[#87151022] rounded-full transition-colors"
-                    aria-expanded="false">
+          <div class="w-64 px-4 py-3 bg-white border-2 rounded-lg flex items-center justify-between data-[active=true]:hover:border-[#871510] data-[active=false]:border-gray-200 transition-colors"
+          data-active="true">
+              <div id="3d-btn" 
+                      class="flex-1 font-bold transition-colors data-[active=true]:text-[#871510] data-[active=false]:text-gray-400 hover:text-[#871510] cursor-pointer" 
+                      data-active="true">
+                      3D Models
+              </div>
+              <button id="3d-dropdown-btn" 
+                      class="p-1.5 text-gray-600 hover:text-[#871510] hover:bg-[#87151022] rounded-full transition-colors"
+                      aria-expanded="false">
               <svg class="w-4 h-4 transition-transform duration-200" 
                    viewBox="0 0 20 20" 
                    fill="currentColor">
@@ -46,13 +46,13 @@ const { className = "" } = Astro.props;
   
     <!-- 2D Models -->
     <div class="relative">
-        <div class="w-64 px-4 py-3 bg-white border-2 rounded-lg flex items-center justify-between data-[active=true]:hover:border-[#E19645] data-[active=false]:border-gray-200 transition-colors"
-        data-active="true">
-            <button id="2d-btn" 
-                    class="font-bold transition-colors data-[active=true]:text-[#E19645] data-[active=false]:text-gray-400 hover:text-[#E19645]" 
-                    data-active="true">
-                    2D Models
-            </button>
+      <div class="w-64 px-4 py-3 bg-white border-2 rounded-lg flex items-center justify-between data-[active=true]:hover:border-[#E19645] data-[active=false]:border-gray-200 transition-colors"
+      data-active="true">
+          <div id="2d-btn" 
+                  class="flex-1 font-bold transition-colors data-[active=true]:text-[#E19645] data-[active=false]:text-gray-400 hover:text-[#E19645] cursor-pointer" 
+                  data-active="true">
+                  2D Models
+          </div>
           <button id="2d-dropdown-btn" 
                   class="p-1.5 text-gray-600 hover:text-[#E19645] hover:bg-[#E1964522] rounded-full transition-colors"
                   aria-expanded="false">
