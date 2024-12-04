@@ -102,64 +102,80 @@ const { className = "" } = Astro.props;
   <div id="radarChart" class="w-full h-[600px]"></div>
 </div>
 
-<div class="flex items-center gap-8 -mt-20 text-lg font-['Comic_Sans_MS']">
-    <span>
-      <span class="font-bold" style="color: #9A6500;">G</span>
-      <span>= Geometry Probing</span>
-    </span>
-    <span>
-      <span class="font-bold" style="color: #564668;">T</span>
-      <span>= Texture Probing</span>
-    </span>
-    <span>
-      <span class="font-bold" style="color: #444B0B;">A</span>
-      <span>= Geometry & Texture Probing</span>
-    </span>
-  </div>
+<div class="flex flex-nowrap gap-2.5 justify-center -mt-10">
+    <button id="geometry-btn" 
+            class="probe-btn px-3 py-1.5 text-sm font-bold border-2 rounded-full hover:bg-gray-100 transition-colors flex-shrink-0" 
+            data-active="true"
+            style="border-color: #9A6500">
+        <span>Geometry Probing</span>
+    </button>
+    <button id="texture-btn" 
+            class="probe-btn px-3 py-1.5 text-sm font-bold border-2 rounded-full hover:bg-gray-100 transition-colors flex-shrink-0" 
+            data-active="true"
+            style="border-color: #564668">
+        <span>Texture Probing</span>
+    </button>
+    <button id="both-btn" 
+            class="probe-btn px-3 py-1.5 text-sm font-bold border-2 rounded-full hover:bg-gray-100 transition-colors flex-shrink-0" 
+            data-active="true"
+            style="border-color: #444B0B">
+        <span>All = Geometry & Texture Probing</span>
+    </button>
+</div>
+
+<style>
+    .probe-btn {
+      cursor: pointer;
+      opacity: 0.5;
+      transition: all 0.3s;
+      color: black;
+    }
+    .probe-btn[data-active="true"] {
+      opacity: 1;
+      color: white;
+    }
+    #geometry-btn[data-active="true"] {
+      background-color: #9A6500;
+    }
+    #texture-btn[data-active="true"] {
+      background-color: #564668;
+    }
+    #both-btn[data-active="true"] {
+      background-color: #444B0B;
+    }
+  </style>
   
 <script>
   import * as echarts from 'echarts';
+  import type { EChartsType } from 'echarts';
 
   const indicators = [
-    { name: '{gb|G}-{g|LPIPS}', max: 1 },
-    { name: '{gb|G}-{g|SSIM}', max: 1 },
-    { name: '{gb|G}-{g|PSNR}', max: 1 },
-    { name: '{ab|A}-{a|LPIPS}', max: 1 },
-    { name: '{ab|A}-{a|SSIM}', max: 1 },
-    { name: '{ab|A}-{a|PSNR}', max: 1 },
-    { name: '{tb|T}-{t|LPIPS}', max: 1 },
-    { name: '{tb|T}-{t|SSIM}', max: 1 },
-    { name: '{tb|T}-{t|PSNR}', max: 1 }
+    { name: '{gb|Geometry}-{g|LPIPS}', max: 1 },
+    { name: '{gb|Geometry}-{g|SSIM}', max: 1 },
+    { name: '{gb|Geometry}-{g|PSNR}', max: 1 },
+    { name: '{ab|All}-{a|LPIPS}', max: 1 },
+    { name: '{ab|All}-{a|SSIM}', max: 1 },
+    { name: '{ab|All}-{a|PSNR}', max: 1 },
+    { name: '{tb|Texture}-{t|LPIPS}', max: 1 },
+    { name: '{tb|Texture}-{t|SSIM}', max: 1 },
+    { name: '{tb|Texture}-{t|PSNR}', max: 1 }
   ];
 
   interface DataType {
     [key: string]: number[];
   }
-
+  
   const actualData: DataType = {
     DUSt3R: [0.3247, 0.6469, 19.6568, 0.3775, 0.6428, 19.5831, 0.3285, 0.5948, 18.0102],
     MASt3R: [0.3228, 0.6477, 19.6734, 0.3754, 0.6460, 19.6574, 0.3276, 0.5961, 18.0768],
     MiDaS: [0.3319, 0.6428, 19.5503, 0.3801, 0.6382, 19.4230, 0.3288, 0.5950, 17.9961],
-    DINOv2: [0.3364, 0.6486, 19.5887, 0.3760, 0.6388, 19.4999, 0.3291, 0.5951, 18.0333],
+    DINOv2: [0.3364, 0.6406, 19.5887, 0.3760, 0.6388, 19.4999, 0.3291, 0.5951, 18.0333],
     DINO: [0.3256, 0.6452, 19.6261, 0.3793, 0.6427, 19.5550, 0.3282, 0.5961, 18.0327],
     SAM: [0.3345, 0.6392, 19.5225, 0.3731, 0.6379, 19.4365, 0.3279, 0.5966, 17.9889],
     CLIP: [0.3331, 0.6436, 19.6079, 0.3832, 0.6416, 19.5039, 0.3289, 0.5947, 18.0971],
     RADIO: [0.3143, 0.6513, 19.7258, 0.4051, 0.6407, 19.4929, 0.3301, 0.5944, 18.1306],
     MAE: [0.3317, 0.6408, 19.5036, 0.3730, 0.6404, 19.4952, 0.3276, 0.5967, 18.0039],
     SD: [0.3350, 0.6382, 19.4414, 0.3760, 0.6357, 19.3225, 0.3325, 0.5931, 17.8103]
-  };
-
-  const modelData: DataType = {
-    DUSt3R: [0.5771, 0.6953, 0.7815, 0.8755, 0.7179, 0.8003, 0.8313, 0.5265, 0.6616],
-    MASt3R: [0.6546, 0.7519, 0.8342, 0.9325, 1.0000, 1.0000, 1.0000, 0.8403, 0.8488],
-    MiDaS: [0.2837, 0.4171, 0.4447, 0.8021, 0.3165, 0.3701, 0.7679, 0.5825, 0.6222],
-    DINOv2: [0.1000, 0.2663, 0.5660, 0.9164, 0.3668, 0.5767, 0.7241, 0.6120, 0.7264],
-    DINO: [0.5404, 0.5826, 0.6844, 0.8230, 0.7144, 0.7246, 0.8900, 0.8529, 0.7249],
-    SAM: [0.1785, 0.1701, 0.3565, 0.9981, 0.2909, 0.4063, 0.9434, 0.9850, 0.6018],
-    CLIP: [0.2356, 0.4709, 0.6267, 0.7158, 0.6130, 0.5875, 0.7549, 0.5117, 0.9057],
-    RADIO: [1.0000, 1.0000, 1.0000, 0.1000, 0.5372, 0.5578, 0.5279, 0.4246, 1.0000],
-    MAE: [0.2897, 0.2803, 0.2969, 1.0000, 0.5129, 0.5640, 0.9871, 1.0000, 0.6441],
-    SD: [0.1553, 0.1000, 0.1000, 0.9160, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000],
   };
 
   interface ColorType {
@@ -201,6 +217,27 @@ const { className = "" } = Astro.props;
       }
     };
   
+
+    const normalizeData = (data: DataType, indices: number[]) => {
+    return Object.keys(data).reduce((acc, key) => {
+        acc[key] = indices.map(index => {
+        const allValues = Object.values(data).map(arr => arr[index]);
+        const minVal = Math.min(...allValues);
+        const maxVal = Math.max(...allValues);
+        const value = data[key][index];
+        
+        const isLPIPS = indicators[index].name.includes('LPIPS');
+        
+        if (isLPIPS) {
+            return 0.1 + 0.9 * (maxVal - value) / (maxVal - minVal);
+        } else {
+            return 0.1 + 0.9 * (value - minVal) / (maxVal - minVal);
+        }
+        });
+        return acc;
+    }, {} as { [key: string]: number[] });
+    };
+
   const initChart = () => {
     const chartDom = document.getElementById('radarChart');
     if (!chartDom) return;
@@ -213,14 +250,14 @@ const { className = "" } = Astro.props;
         },
         legend: {
             orient: 'vertical',
-            right: 50,
+            right: 0,
             top: 'middle',
             padding: [10, 10, 10, 10],
-            borderWidth: 1,  // 边框宽度
-            borderColor: '#ccc',  // 边框颜色
-            borderRadius: 4,  // 边框圆角
-            backgroundColor: '#fff',  // 背景色
-            data: Object.keys(modelData),
+            borderWidth: 1,
+            borderColor: '#ccc',
+            borderRadius: 4,
+            backgroundColor: '#fff', 
+            data: Object.keys(actualData),
             textStyle: {
                 fontSize: 14,
                 fontFamily: 'Comic Sans MS'
@@ -229,14 +266,14 @@ const { className = "" } = Astro.props;
             itemWidth: 14,
             itemHeight: 14,
             itemGap: 15,
-            selected: Object.keys(modelData).reduce((acc: { [key: string]: boolean }, curr) => {
+            selected: Object.keys(actualData).reduce((acc: { [key: string]: boolean }, curr) => {
             acc[curr] = true;
             return acc;
             }, {} as { [key: string]: boolean })
         },
         toolbox: {
             show: true,
-            right: 50,
+            right: 0,
             top: 425,
             feature: {
                 myTool: {
@@ -246,11 +283,24 @@ const { className = "" } = Astro.props;
                     onclick: function() {
                         const allSelected = !Object.values((myChart.getOption() as any).legend[0].selected).every(v => v);
                         const newSelected: { [key: string]: boolean } = {};
-                        Object.keys(modelData).forEach(key => {
+                        Object.keys(actualData).forEach(key => {
                             newSelected[key] = allSelected;
                         });
+                        
                         myChart.setOption({
                             legend: { selected: newSelected }
+                        });
+
+                        ['3d', '2d'].forEach(prefix => {
+                            document.querySelectorAll(`input[name^="${prefix}-"]`).forEach((checkbox) => {
+                                (checkbox as HTMLInputElement).checked = allSelected;
+                            });
+
+                            const btn = document.getElementById(`${prefix}-btn`);
+                            if (btn) {
+                                btn.setAttribute('data-active', allSelected.toString());
+                                btn.closest('div.border-2')?.setAttribute('data-active', allSelected.toString());
+                            }
                         });
                     }
                 }
@@ -274,28 +324,37 @@ const { className = "" } = Astro.props;
                 
                 let result = `<span style="color: ${colors[modelName]}; font-size: 16px; text-shadow: 1px 1px 2px #000;"><b>${modelName}</b></span><br/>`;
                 
-                // 按G、T、A的顺序显示指标
+                const geometryActive = document.getElementById('geometry-btn')?.getAttribute('data-active') === 'true';
+                const textureActive = document.getElementById('texture-btn')?.getAttribute('data-active') === 'true';
+                const bothActive = document.getElementById('both-btn')?.getAttribute('data-active') === 'true';
+                
                 indicators.forEach((indicator, index) => {
                     const cleanName = indicator.name.replace(/{[^}]+\|/g, '').replace(/}/g, '');
                     const firstLetter = cleanName[0];
-                    if (firstLetter === 'G') {
-                        result += `<span style="color: #9A6500"><b>G</b>${cleanName.slice(1)}</span>: ${realValues[index].toFixed(4)}<br/>`;
+                    
+                    if (firstLetter === 'G' && geometryActive) {
+                        const parts = cleanName.slice(1).split('-');
+                        result += `<span style="color: #9A6500"><b>G${parts[0]}</b>-${parts[1]}</span>: ${realValues[index].toFixed(4)}<br/>`;
                     }
                 });
                 
                 indicators.forEach((indicator, index) => {
                     const cleanName = indicator.name.replace(/{[^}]+\|/g, '').replace(/}/g, '');
                     const firstLetter = cleanName[0];
-                    if (firstLetter === 'T') {
-                        result += `<span style="color: #564668"><b>T</b>${cleanName.slice(1)}</span>: ${realValues[index].toFixed(4)}<br/>`;
+                    
+                    if (firstLetter === 'T' && textureActive) {
+                        const parts = cleanName.slice(1).split('-');
+                        result += `<span style="color: #564668"><b>T${parts[0]}</b>-${parts[1]}</span>: ${realValues[index].toFixed(4)}<br/>`;
                     }
                 });
                 
                 indicators.forEach((indicator, index) => {
                     const cleanName = indicator.name.replace(/{[^}]+\|/g, '').replace(/}/g, '');
                     const firstLetter = cleanName[0];
-                    if (firstLetter === 'A') {
-                        result += `<span style="color: #444B0B"><b>A</b>${cleanName.slice(1)}</span>: ${realValues[index].toFixed(4)}<br/>`;
+                    
+                    if (firstLetter === 'A' && bothActive) {
+                        const parts = cleanName.slice(1).split('-');
+                        result += `<span style="color: #444B0B"><b>A${parts[0]}</b>-${parts[1]}</span>: ${realValues[index].toFixed(4)}<br/>`;
                     }
                 });
                 
@@ -375,9 +434,9 @@ const { className = "" } = Astro.props;
         animationDuration: 300,
         animationEasing: 'cubicOut',
         z: 2,
-        data: Object.keys(modelData).map(key => ({
+        data: Object.keys(actualData).map(key => ({
           name: key,
-          value: modelData[key],
+          value: normalizeData(actualData, [0,1,2,3,4,5,6,7,8])[key],
           lineStyle: {
             color: colors[key],
             width: 2
@@ -395,20 +454,186 @@ const { className = "" } = Astro.props;
             scale: true,
             lineStyle: {
               width: 6,
-            //   shadowBlur: 2
             },
             itemStyle: {
               borderWidth: 6,
               color: colors[key],
-            //   shadowBlur: 2
             }
           }
         }))
       }]
     };
 
+    const probeGroups = {
+    'geometry': [0, 1, 2],
+    'texture': [6, 7, 8],
+    'both': [3, 4, 5]
+    };
+
+
+const updateProbeIndicators = () => {
+  const activeProbes = [];
+  const activeIndicators = [];
+  
+  const geometryActive = document.getElementById('geometry-btn')?.getAttribute('data-active') === 'true';
+  const bothActive = document.getElementById('both-btn')?.getAttribute('data-active') === 'true';
+  const textureActive = document.getElementById('texture-btn')?.getAttribute('data-active') === 'true';
+  
+  if (geometryActive) {
+    activeProbes.push(...probeGroups.geometry);
+    activeIndicators.push(...indicators.slice(0, 3));
+  }
+  if (bothActive) {
+    activeProbes.push(...probeGroups.both);
+    activeIndicators.push(...indicators.slice(3, 6));
+  }
+  if (textureActive) {
+    activeProbes.push(...probeGroups.texture);
+    activeIndicators.push(...indicators.slice(6, 9));
+  }
+
+  if (!geometryActive && !bothActive && !textureActive) {
+    myChart.setOption({
+      radar: {
+        indicator: indicators 
+      },
+      series: [{
+        data: Object.keys(actualData).map(key => ({
+          name: key,
+          value: new Array(9).fill(0),
+          lineStyle: {
+            color: colors[key],
+            width: 2
+          },
+          areaStyle: {
+            color: colors[key],
+            opacity: 0.15
+          },
+          itemStyle: {
+            color: colors[key],
+            borderWidth: 1
+          },
+          emphasis: {
+            focus: 'series',
+            scale: true,
+            lineStyle: {
+              width: 6,
+            },
+            itemStyle: {
+              borderWidth: 6,
+              color: colors[key],
+            }
+          }
+        }))
+      }]
+    });
+    return;
+  }
+
+  const normalizedData = normalizeData(actualData, activeProbes);
+  const filteredData = Object.keys(normalizedData).map(key => ({
+    name: key,
+    value: normalizedData[key],
+    lineStyle: {
+      color: colors[key],
+      width: 2
+    },
+    areaStyle: {
+      color: colors[key],
+      opacity: 0.15
+    },
+    itemStyle: {
+      color: colors[key],
+      borderWidth: 1
+    },
+    emphasis: {
+      focus: 'series',
+      scale: true,
+      lineStyle: {
+        width: 6,
+      },
+      itemStyle: {
+        borderWidth: 6,
+        color: colors[key],
+      }
+    }
+  }));
+
+  myChart.setOption({
+    radar: {
+      indicator: activeIndicators
+    },
+    series: [{
+      data: filteredData
+      }]
+    });
+  };
+
+    document.querySelectorAll('.probe-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        const button = e.currentTarget as HTMLElement;
+        button.setAttribute('data-active', 
+            button.getAttribute('data-active') === 'true' ? 'false' : 'true'
+        );
+        updateProbeIndicators();
+    });
+    });
+
+    updateProbeIndicators();
+
+    myChart.on('legendselectchanged', function(this: EChartsType, params: any) {
+        const modelName = params.name;
+        
+        const all3DModels = [...modelGroups['3d'].point, ...modelGroups['3d'].depth];
+        const is3DModelSelected = all3DModels.some(model => params.selected[model]);
+        
+        if (all3DModels.includes(modelName)) {
+            const btn = document.getElementById('3d-btn');
+            if (btn) {
+                btn.setAttribute('data-active', is3DModelSelected.toString());
+                btn.closest('div.border-2')?.setAttribute('data-active', is3DModelSelected.toString());
+            }
+            
+            if (modelGroups['3d'].point.includes(modelName)) {
+                const checkbox = document.querySelector('input[name="3d-point"]') as HTMLInputElement;
+                if (checkbox) {
+                    const isPointGroupSelected = modelGroups['3d'].point.some(model => params.selected[model]);
+                    checkbox.checked = isPointGroupSelected;
+                }
+            }
+            if (modelGroups['3d'].depth.includes(modelName)) {
+                const checkbox = document.querySelector('input[name="3d-depth"]') as HTMLInputElement;
+                if (checkbox) {
+                    const isDepthGroupSelected = modelGroups['3d'].depth.some(model => params.selected[model]);
+                    checkbox.checked = isDepthGroupSelected;
+                }
+            }
+        }
+        
+        const all2DModels = Object.values(modelGroups['2d']).flat();
+        const is2DModelSelected = all2DModels.some(model => params.selected[model]);
+        
+        if (all2DModels.includes(modelName)) {
+            const btn = document.getElementById('2d-btn');
+            if (btn) {
+                btn.setAttribute('data-active', is2DModelSelected.toString());
+                btn.closest('div.border-2')?.setAttribute('data-active', is2DModelSelected.toString());
+            }
+            
+            for (const [type, models] of Object.entries(modelGroups['2d'])) {
+                if (models.includes(modelName)) {
+                    const checkbox = document.querySelector(`input[name="2d-${type}"]`) as HTMLInputElement;
+                    if (checkbox) {
+                        const isGroupSelected = models.some(model => params.selected[model]);
+                        checkbox.checked = isGroupSelected;
+                    }
+                }
+            }
+        }
+    });
+    
     myChart.setOption(option);
-    // 下拉菜单状态管理
+
     const toggleDropdown = (prefix: string, show: boolean) => {
       const dropdownBtn = document.getElementById(`${prefix}-dropdown-btn`);
       const dropdown = document.getElementById(`${prefix}-dropdown`);
@@ -426,7 +651,6 @@ const { className = "" } = Astro.props;
       }
     };
 
-    // 更新图表显示
     const updateChart = () => {
       const selected3dTypes = Array.from(document.querySelectorAll('input[name^="3d-"]:checked'))
         .map(cb => (cb as HTMLInputElement).value);
@@ -437,7 +661,7 @@ const { className = "" } = Astro.props;
       const selected3dModels = selected3dTypes.flatMap(type => modelGroups['3d'][type] || []);
       const selected2dModels = selected2dTypes.flatMap(type => modelGroups['2d'][type] || []);
 
-      const newSelected = Object.keys(modelData).reduce((acc, curr) => {
+      const newSelected = Object.keys(actualData).reduce((acc, curr) => {
         acc[curr] = selected3dModels.includes(curr) || selected2dModels.includes(curr);
         return acc;
       }, {} as { [key: string]: boolean });
@@ -447,7 +671,6 @@ const { className = "" } = Astro.props;
       });
     };
 
-    // 更新复选框状态并触发图表更新
     const updateCheckboxesAndChart = (prefix: string, checked: boolean) => {
       (document.querySelectorAll(`input[name^="${prefix}-"]`) as NodeListOf<HTMLInputElement>).forEach(checkbox => {
         checkbox.checked = checked;
@@ -455,7 +678,6 @@ const { className = "" } = Astro.props;
       updateChart();
     };
 
-    // 主按钮点击处理（只处理选中状态）
     const handleMainButtonClick = (e: Event) => {
         const btn = e.currentTarget as HTMLElement;
         const prefix = btn.id.split('-')[0];
@@ -463,37 +685,31 @@ const { className = "" } = Astro.props;
         const newState = !currentState;
         
         btn.setAttribute('data-active', newState.toString());
-        // 同时更新外层div的data-active属性
         btn.closest('div.border-2')?.setAttribute('data-active', newState.toString());
         updateCheckboxesAndChart(prefix, newState);
         };
 
-    // 下拉按钮点击处理（只处理下拉菜单）
     const handleDropdownButtonClick = (e: Event) => {
       e.stopPropagation();
       const btn = e.currentTarget as HTMLElement;
       const prefix = btn.id.split('-')[0];
       const isExpanded = btn.getAttribute('aria-expanded') === 'true';
       
-      // 关闭其他下拉菜单
       ['3d', '2d'].forEach(p => {
         if (p !== prefix) {
           toggleDropdown(p, false);
         }
       });
 
-      // 切换当前下拉菜单
       toggleDropdown(prefix, !isExpanded);
     };
 
-    // 复选框变化事件处理
     const handleCheckboxChange = (e: Event) => {
       const checkbox = e.target as HTMLInputElement;
       const prefix = checkbox.name.split('-')[0];
       const btn = document.getElementById(`${prefix}-btn`);
       
       if (btn) {
-        // 检查该组中是否有任何复选框被选中
         const hasChecked = Array.from(document.querySelectorAll(`input[name^="${prefix}-"]`))
           .some(cb => (cb as HTMLInputElement).checked);
         
@@ -503,7 +719,6 @@ const { className = "" } = Astro.props;
       updateChart();
     };
 
-    // 点击外部关闭下拉菜单
     const handleOutsideClick = (e: Event) => {
       const target = e.target as HTMLElement;
       const isDropdownClick = target.closest('[id$="-dropdown-btn"]') || target.closest('[id$="-dropdown"]');
@@ -515,7 +730,6 @@ const { className = "" } = Astro.props;
       }
     };
 
-    // 绑定事件监听器
     ['3d-btn', '2d-btn'].forEach(btnId => {
       const btn = document.getElementById(btnId);
       if (btn) {
@@ -536,47 +750,33 @@ const { className = "" } = Astro.props;
 
     document.addEventListener('click', handleOutsideClick);
 
-    // 响应式处理
     const resizeObserver = new ResizeObserver(() => {
       myChart.resize();
     });
 
     resizeObserver.observe(chartDom);
 
-    // 初始更新
     updateChart();
 
-    // 清理函数
     return () => {
-      ['3d-btn', '2d-btn'].forEach(btnId => {
-        const btn = document.getElementById(btnId);
-        if (btn) {
-          btn.removeEventListener('click', handleMainButtonClick);
-        }
-      });
+    ['3d-btn', '2d-btn', '3d-dropdown-btn', '2d-dropdown-btn'].forEach(id => {
+        document.getElementById(id)?.removeEventListener('click', 
+            id.includes('dropdown') ? handleDropdownButtonClick : handleMainButtonClick
+        );
+    });
 
-      ['3d-dropdown-btn', '2d-dropdown-btn'].forEach(btnId => {
-        const btn = document.getElementById(btnId);
-        if (btn) {
-          btn.removeEventListener('click', handleDropdownButtonClick);
-        }
-      });
-
-      document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-        checkbox.removeEventListener('change', handleCheckboxChange);
-      });
-
-      document.removeEventListener('click', handleOutsideClick);
-      resizeObserver.disconnect();
-      myChart.dispose();
+    document.querySelectorAll('input[type="checkbox"]')
+        .forEach(cb => cb.removeEventListener('change', handleCheckboxChange));
+    
+    document.removeEventListener('click', handleOutsideClick);
+    resizeObserver.disconnect();
+    myChart.dispose();
     };
   };
 
-  // 当DOM加载完成后初始化图表
   document.addEventListener('DOMContentLoaded', () => {
     const cleanup = initChart();
     
-    // 在页面卸载时清理资源
     window.addEventListener('unload', () => {
       if (cleanup) cleanup();
     });
