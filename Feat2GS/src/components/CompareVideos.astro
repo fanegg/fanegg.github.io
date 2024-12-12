@@ -22,11 +22,11 @@ const defaultVideo2 = videos.find(v => v.scene === scenes[0] && v.label === defa
 ---
 
 <div 
-  class={`compare-videos-container ${className || 'w-full'}`}
+  class="compare-videos-container w-full"
   data-first-label={defaultLabels.first}
   data-second-label={defaultLabels.second}
 >
-    <div class="mb-4 flex gap-2 justify-center">
+    <div class="mb-4 flex flex-wrap gap-2 justify-center">
       {scenes.map((scene) => (
         <button
           class="scene-selector px-4 py-2 text-sm font-bold border rounded-t-lg hover:bg-zinc-400 transition-colors"
@@ -37,7 +37,8 @@ const defaultVideo2 = videos.find(v => v.scene === scenes[0] && v.label === defa
       ))}
     </div>
 
-    <div class="grid grid-cols-2 gap-0 mb-4">
+    <div class={`${className} mx-auto`}>
+      <div class="grid grid-cols-2 gap-0 mb-4">
         <div class="video1-container relative group">
           <div class="loading-indicator absolute inset-0 flex items-center justify-center bg-black/10 rounded-lg">
             <div class="animate-spin rounded-full h-8 w-8 border-4 border-zinc-300 border-t-zinc-600"></div>
@@ -70,48 +71,24 @@ const defaultVideo2 = videos.find(v => v.scene === scenes[0] && v.label === defa
             {defaultVideo2?.label}
           </div>
         </div>
+      </div>
     </div>
-    
-    <style>
-      video::-webkit-media-controls {
-        opacity: 0;
-        transition: opacity 0.3s;
+
+    <div class="flex flex-wrap gap-1.5 justify-center">
+      {
+        videos.map((video) => (
+          <button
+            class="video-selector px-3 py-1.5 text-sm font-bold border-2 rounded-full hover:bg-gray-100 transition-colors w-22 flex-shrink-0"
+            data-source={video.source}
+            data-label={video.label}
+            data-scene={video.scene}
+            data-color={video.color}
+            style={`border-color: ${video.color}`}
+          >
+            {video.label}
+          </button>
+        ))
       }
-    
-      .group:hover video::-webkit-media-controls {
-        opacity: 1;
-      }
-    
-      video::-webkit-media-controls-volume-slider,
-      video::-webkit-media-controls-mute-button {
-        display: none;
-      }
-    
-      video {
-        opacity: 1;
-        transition: opacity 0.3s;
-      }
-    
-      video:not(:hover) {
-        opacity: 1;
-      }
-    </style>
-  
-    <div class="flex flex-nowrap gap-1.5 justify-center">
-        {
-          videos.map((video) => (
-            <button
-              class="video-selector px-3 py-1.5 text-sm font-bold border-2 rounded-full hover:bg-gray-100 transition-colors w-22 flex-shrink-0"
-              data-source={video.source}
-              data-label={video.label}
-              data-scene={video.scene}
-              data-color={video.color}
-              style={`border-color: ${video.color}`}
-            >
-              {video.label}
-            </button>
-          ))
-        }
     </div>
 </div>
 <script>

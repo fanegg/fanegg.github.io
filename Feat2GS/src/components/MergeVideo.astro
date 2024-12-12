@@ -18,10 +18,11 @@ const defaultVideo = videos.find(v => v.scene === scenes[0] && v.label === defau
 ---
 
 <div 
-  class={`merge-video-container ${className}`}
+  class={`merge-video-container w-full sm:w-1/2 mx-auto ${className}`}
   data-default-label={defaultLabel}
 >
-  <div class="mb-4 flex gap-2 justify-center">
+  <!-- <div class="mb-4 flex gap-2 justify-center"> -->
+  <div class="mb-4 flex flex-wrap gap-2 justify-center">
     {scenes.map((scene) => (
       <button
         class="scene-selector px-4 py-2 text-sm font-bold border rounded-t-lg hover:bg-zinc-400 transition-colors"
@@ -47,7 +48,8 @@ const defaultVideo = videos.find(v => v.scene === scenes[0] && v.label === defau
     <canvas height="0" class="videoMerge" id="materialsMerge"></canvas>
   </div>
 
-  <div class="flex flex-nowrap gap-1.5 justify-center mt-4">
+  <!-- <div class="flex flex-nowrap gap-1.5 justify-center mt-4"> -->
+   <div class="flex flex-wrap gap-1.5 justify-center mt-4">
     {videos.map((video) => (
       <button
         class="video-selector px-3 py-1.5 text-sm font-bold border-2 rounded-full hover:bg-gray-100 transition-colors w-22 flex-shrink-0"
@@ -205,8 +207,15 @@ const defaultVideo = videos.find(v => v.scene === scenes[0] && v.label === defau
 
     observer.observe(container);
     
-    container.style.width = `${(element.videoWidth/2) * 0.5}px`;
-    container.style.height = `${element.videoHeight * 0.5}px`;
+    const maxWidth = Math.min(
+        (container.parentElement?.clientWidth || element.videoWidth/2) - 32, 
+        element.videoWidth/2
+    );
+    
+    const size = Math.min(element.videoWidth/2, maxWidth);
+    
+    container.style.width = `${size}px`;
+    container.style.height = `${size}px`;
     
     element.style.height = "0px";
     element.classList.remove('opacity-0');
@@ -243,8 +252,32 @@ const defaultVideo = videos.find(v => v.scene === scenes[0] && v.label === defau
         };
       }
 
+      let resizeTimeout: number;
+      window.addEventListener('resize', () => {
+        if (resizeTimeout) {
+          window.clearTimeout(resizeTimeout);
+        }
+        resizeTimeout = window.setTimeout(() => {
+          if (this.currentVideo) {
+            resizeAndPlay(this.currentVideo);
+          }
+        }, 150);
+      });
+
+      if (document.readyState === 'complete') {
+        this.updateVideoSize();
+      } else {
+        window.addEventListener('load', () => this.updateVideoSize());
+      }
+
       this.bindEvents();
       this.updateButtonStyles();
+    }
+
+    private updateVideoSize() {
+      if (this.currentVideo) {
+        resizeAndPlay(this.currentVideo);
+      }
     }
 
     private bindEvents() {
@@ -344,6 +377,16 @@ const defaultVideo = videos.find(v => v.scene === scenes[0] && v.label === defau
 <style>
   .video-container {
     position: relative;
+    margin: 0 auto;
+    aspect-ratio: 1/1;
+  }
+
+  .merge-video-container {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    max-width: 600px;
     margin: 0 auto;
   }
 

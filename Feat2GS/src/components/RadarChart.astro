@@ -7,7 +7,8 @@ const { className = "" } = Astro.props;
 ---
 
 <div class="flex flex-col items-center gap-4 -mb-10">
-    <div class="flex justify-center gap-8">
+    <!-- <div class="flex justify-center gap-8"></div> -->
+      <div class="flex flex-wrap justify-center gap-8">
         <!-- 3D Models -->
         <div class="relative">
           <div class="w-64 px-4 py-3 bg-white border-2 rounded-lg flex items-center justify-between data-[active=true]:hover:border-[#871510] data-[active=false]:border-gray-200 transition-colors"
@@ -102,7 +103,8 @@ const { className = "" } = Astro.props;
   <div id="radarChart" class="w-full h-[600px]"></div>
 </div>
 
-<div class="flex flex-nowrap gap-2.5 justify-center -mt-10">
+<!-- <div class="flex flex-nowrap gap-2.5 justify-center -mt-10"> -->
+  <div class="flex flex-wrap gap-2.5 justify-center -mt-10">
     <button id="geometry-btn" 
             class="probe-btn px-3 py-1.5 text-sm font-bold border-2 rounded-full hover:bg-gray-100 transition-colors flex-shrink-0" 
             data-active="true"
@@ -246,7 +248,8 @@ const { className = "" } = Astro.props;
 
     const option = {
         grid: {
-            right: '20%' 
+            right: '20%',
+            left: '15%'
         },
         legend: {
             orient: 'vertical',
