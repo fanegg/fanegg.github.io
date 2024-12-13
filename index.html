@@ -9,6 +9,15 @@
   @import url(https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic,700,700italic,900,900italic,300italic,300);
   /* @import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons); */
     /* Color scheme stolen from Sergey Karayev */
+    .intro-text {
+        font-size: 16px;
+      }
+      
+    @media screen and (max-width: 768px) {
+      .intro-text {
+        font-size: 15px;
+      }
+    }
     a {
     /*color: #b60a1c;*/
     color: #1772d0;
@@ -95,9 +104,9 @@
         <p align="center">
           <name>Yue Chen (陈悦)</name>
         </p>
-        <p style="font-size: 16px;">I am currently a PhD student at <a href="https://en.westlake.edu.cn/">Westlake University</a>, co-supervised by <a href="https://xiuyuliang.cn/">Yuliang Xiu</a> and <a href="https://virtualhumans.mpi-inf.mpg.de/">Gerard Pons-Moll</a>.
+        <p class="intro-text">I am currently a PhD student at <a href="https://en.westlake.edu.cn/">Westlake University</a>, co-supervised by <a href="https://xiuyuliang.cn/">Yuliang Xiu</a> and <a href="https://virtualhumans.mpi-inf.mpg.de/">Gerard Pons-Moll</a>.
         </p>
-        <p style="font-size: 16px;">I am interested in modeling 3D/4D world from casually-captured real-world images/videos.
+        <p class="intro-text">I am interested in modeling 3D/4D world from casually-captured real-world images/videos.
           I have previously done research internships at <a href="https://ailab.tencent.com/ailab/en/index/">Tencent AI Lab</a>.
           As a Muggle dreaming of the Wizarding World, I feel so fortunate to create magic through what I am exploring on this jorney.
         </p>
