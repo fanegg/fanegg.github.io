@@ -1,0 +1,51 @@
+---
+---
+<div class="px-6 w-full"> 
+    <div class="acknowledgement-wrapper">
+        <div class="scroll-container">
+            <p class="text-zinc-500 text-justify">
+              <slot />
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .acknowledgement-wrapper {
+        width: 100%;
+        max-width: 60rem; 
+        margin: 0 auto; 
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        background-color: #fff;
+    }
+    
+    .scroll-container {
+        max-height: 90px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #cbd5e1 #f1f5f9;
+    }
+
+    .scroll-container::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .scroll-container::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 4px;
+    }
+
+    .scroll-container::-webkit-scrollbar-thumb {
+        background-color: #cbd5e1;
+        border-radius: 4px;
+    }
+
+    .acknowledgement-wrapper :global(p) {
+        font-size: 1rem !important;
+        width: auto !important;
+        line-height: normal !important;
+        text-align: justify !important;
+    }
+</style>
