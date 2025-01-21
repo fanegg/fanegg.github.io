@@ -79,26 +79,22 @@ import { ApplicationData } from "../data/Application.js";
   ]} 
   links={[
     {
-      name: "Paper",
-      url: "https://arxiv.org/abs/2412.09606",
-      icon: "fa-solid:file-pdf",
-    },
-    {
-      name: "Code (Coming Soon)",
-      url: "https://fanegg.github.io/Feat2GS/",
-      icon: "mdi:github",
-    },
-    {
       name: "arXiv",
       url: "https://arxiv.org/abs/2412.09606",
       icon: "academicons:arxiv",
     },
       {
       name: "Gallery",
-      url: "https://fanegg.github.io#magic",
+      url: "https://fanegg.github.io/#magic",
       icon: "fa-solid:images",
     },
-  ]}
+    {
+      name: "Check back later",
+      url: "",
+      icon: "mdi:github",
+      disabled: true,
+    },
+    ]}
   />
 
 <Image source={motivation} altText="Motivation" className="w-full max-w-[800px] mx-auto px-4 sm:px-0 overflow-x-hidden" />
