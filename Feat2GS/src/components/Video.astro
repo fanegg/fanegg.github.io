@@ -10,7 +10,7 @@ const { source, className = "", controls = true } = Astro.props;
 
 <div class={`w-full flex justify-center ${className}`}>
   <video
-    class="w-full h-auto rounded-lg"
+    class="w-full h-auto rounded-lg border border-[#d4d4d5]"
     muted
     loop
     {...controls && { controls }}

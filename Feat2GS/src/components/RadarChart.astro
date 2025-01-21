@@ -152,15 +152,15 @@ const { className = "" } = Astro.props;
   import type { EChartsType } from 'echarts';
 
   const indicators = [
-    { name: '{gb|Geometry}-{g|LPIPS}', max: 1 },
-    { name: '{gb|Geometry}-{g|SSIM}', max: 1 },
-    { name: '{gb|Geometry}-{g|PSNR}', max: 1 },
-    { name: '{ab|All}-{a|LPIPS}', max: 1 },
-    { name: '{ab|All}-{a|SSIM}', max: 1 },
-    { name: '{ab|All}-{a|PSNR}', max: 1 },
-    { name: '{tb|Texture}-{t|LPIPS}', max: 1 },
-    { name: '{tb|Texture}-{t|SSIM}', max: 1 },
-    { name: '{tb|Texture}-{t|PSNR}', max: 1 }
+    { name: '{gb|Geometry-}{g|LPIPS}', max: 1 },
+    { name: '{gb|Geometry-}{g|SSIM}', max: 1 },
+    { name: '{gb|Geometry-}{g|PSNR}', max: 1 },
+    { name: '{ab|All-}{a|LPIPS}', max: 1 },
+    { name: '{ab|All-}{a|SSIM}', max: 1 },
+    { name: '{ab|All-}{a|PSNR}', max: 1 },
+    { name: '{tb|Texture-}{t|LPIPS}', max: 1 },
+    { name: '{tb|Texture-}{t|SSIM}', max: 1 },
+    { name: '{tb|Texture-}{t|PSNR}', max: 1 }
   ];
 
   interface DataType {
@@ -263,7 +263,7 @@ const { className = "" } = Astro.props;
             data: Object.keys(actualData),
             textStyle: {
                 fontSize: 14,
-                fontFamily: 'Comic Sans MS'
+                fontFamily: 'Google Sans'
             },
             icon: 'circle',
             itemWidth: 14,
@@ -319,7 +319,7 @@ const { className = "" } = Astro.props;
             borderWidth: 1,
             textStyle: {
                 color: '#333',
-                fontFamily: 'Comic Sans MS'
+                fontFamily: 'Google Sans'
             },
             formatter: function(params: { name: string }) {
                 const modelName = params.name;
@@ -371,40 +371,40 @@ const { className = "" } = Astro.props;
             splitNumber: 4,
         axisName: {
             fontSize: 14,
-          fontFamily: 'Comic Sans MS',
+          fontFamily: 'Google Sans',
           rich: {
             g: {
               color: '#9A6500',
               fontSize: 14,
-              fontFamily: 'Comic Sans MS'
+              fontFamily: 'Google Sans'
             },
             gb: {
               color: '#9A6500',
               fontWeight: 'bold',
               fontSize: 14,
-              fontFamily: 'Comic Sans MS'
+              fontFamily: 'Google Sans'
             },
             t: {
               color: '#564668',
               fontSize: 14,
-              fontFamily: 'Comic Sans MS'
+              fontFamily: 'Google Sans'
             },
             tb: {
               color: '#564668',
               fontWeight: 'bold',
               fontSize: 14,
-              fontFamily: 'Comic Sans MS'
+              fontFamily: 'Google Sans'
             },
             a: {
               color: '#444B0B',
               fontSize: 14,
-              fontFamily: 'Comic Sans MS'
+              fontFamily: 'Google Sans'
             },
             ab: {
               color: '#444B0B',
               fontWeight: 'bold',
               fontSize: 14,
-              fontFamily: 'Comic Sans MS'
+              fontFamily: 'Google Sans'
             }
           }
         },

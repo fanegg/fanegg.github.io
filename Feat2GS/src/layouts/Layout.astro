@@ -49,6 +49,7 @@ const prefix = baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
     class="flex flex-col gap-4 items-center pt-12 pb-6 w-full *:px-6 *:max-w-[60rem]"
   >
     <slot />
+
     <footer class="m-auto text-center">
       <p class="text-zinc-500 text-sm">
         The website template was borrowed from  <a
@@ -62,7 +63,7 @@ const prefix = baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
 
 <style is:global>
   body {
-    font-family: "Comic Sans MS", sans-serif;
+    font-family: "Google Sans", sans-serif;
     @apply text-zinc-900 bg-white;
   }
   a {
@@ -75,7 +76,15 @@ const prefix = baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
     @apply text-5xl text-center font-bold;
   }
   h2 {
-    @apply w-full text-3xl font-bold;
+    @apply w-full text-3xl font-bold text-center;
+    margin-top: 2rem; margin-bottom: 0.5rem;
+  }
+  .text-center {
+    text-align: center;
+  }
+
+  .left-align {
+    text-align: left;
   }
   h3 {
     @apply w-full text-2xl font-bold;
