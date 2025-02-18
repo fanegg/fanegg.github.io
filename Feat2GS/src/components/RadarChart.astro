@@ -11,7 +11,7 @@ const { className = "" } = Astro.props;
       <div class="flex flex-wrap justify-center gap-8">
         <!-- 3D Models -->
         <div class="relative">
-          <div class="w-64 px-4 py-3 bg-white border-2 rounded-lg flex items-center justify-between data-[active=true]:hover:border-[#871510] data-[active=false]:border-gray-200 transition-colors"
+          <div class="w-80 px-4 py-3 bg-white border-2 rounded-lg flex items-center justify-between data-[active=true]:hover:border-[#871510] data-[active=false]:border-gray-200 transition-colors"
           data-active="true">
               <div id="3d-btn" 
                       class="flex-1 font-bold transition-colors data-[active=true]:text-[#871510] data-[active=false]:text-gray-400 hover:text-[#871510] cursor-pointer" 
@@ -32,14 +32,14 @@ const { className = "" } = Astro.props;
           </div>
         <div class="absolute z-10 w-full mt-1 bg-white border rounded-lg shadow-lg opacity-0 invisible transition-all duration-200 transform -translate-y-2"
              id="3d-dropdown">
-          <div class="p-2 space-y-1">
-            <label class="flex items-center w-full px-3 py-2 rounded hover:bg-gray-50 cursor-pointer">
-              <input type="checkbox" name="3d-point" value="point" class="w-4 h-4 mr-3" checked>
-              <span>Point Regression (DUSt3R, MASt3R)</span>
-            </label>
-            <label class="flex items-center w-full px-3 py-2 rounded hover:bg-gray-50 cursor-pointer">
-              <input type="checkbox" name="3d-depth" value="depth" class="w-4 h-4 mr-3" checked>
-              <span>Depth Estimation (MiDaS)</span>
+             <div class="p-2 space-y-1">
+              <label class="flex items-center w-full px-1 py-2 rounded hover:bg-gray-50 cursor-pointer">
+                <input type="checkbox" name="3d-point" value="point" class="w-4 h-4 mr-3 flex-shrink-0" checked>
+                <span class="whitespace-nowrap">Point Regression (DUSt3R, MASt3R)</span>
+              </label>
+              <label class="flex items-center w-full px-1 py-2 rounded hover:bg-gray-50 cursor-pointer">
+                <input type="checkbox" name="3d-depth" value="depth" class="w-4 h-4 mr-3 flex-shrink-0" checked>
+                <span class="whitespace-nowrap">Depth Estimation (MiDaS)</span>
             </label>
           </div>
         </div>
@@ -47,7 +47,7 @@ const { className = "" } = Astro.props;
   
     <!-- 2D Models -->
     <div class="relative">
-      <div class="w-64 px-4 py-3 bg-white border-2 rounded-lg flex items-center justify-between data-[active=true]:hover:border-[#E19645] data-[active=false]:border-gray-200 transition-colors"
+      <div class="w-80 px-4 py-3 bg-white border-2 rounded-lg flex items-center justify-between data-[active=true]:hover:border-[#E19645] data-[active=false]:border-gray-200 transition-colors"
       data-active="true">
           <div id="2d-btn" 
                   class="flex-1 font-bold transition-colors data-[active=true]:text-[#E19645] data-[active=false]:text-gray-400 hover:text-[#E19645] cursor-pointer" 
@@ -69,27 +69,27 @@ const { className = "" } = Astro.props;
         <div class="absolute z-10 w-full mt-1 bg-white border rounded-lg shadow-lg opacity-0 invisible transition-all duration-200 transform -translate-y-2"
              id="2d-dropdown">
           <div class="p-2 space-y-1">
-            <label class="flex items-center w-full px-3 py-2 rounded hover:bg-gray-50 cursor-pointer">
+            <label class="flex items-center w-full px-1 py-2 rounded hover:bg-gray-50 cursor-pointer">
               <input type="checkbox" name="2d-self-distillation" value="self-distillation" class="w-4 h-4 mr-3" checked>
               <span>Self Distillation (DINOv2, DINO)</span>
             </label>
-            <label class="flex items-center w-full px-3 py-2 rounded hover:bg-gray-50 cursor-pointer">
+            <label class="flex items-center w-full px-1 py-2 rounded hover:bg-gray-50 cursor-pointer">
               <input type="checkbox" name="2d-segmentation" value="segmentation" class="w-4 h-4 mr-3" checked>
               <span>Segmentation (SAM)</span>
             </label>
-            <label class="flex items-center w-full px-3 py-2 rounded hover:bg-gray-50 cursor-pointer">
+            <label class="flex items-center w-full px-1 py-2 rounded hover:bg-gray-50 cursor-pointer">
               <input type="checkbox" name="2d-contrastive-vlm" value="contrastive-vlm" class="w-4 h-4 mr-3" checked>
               <span>Contrastive VLM (CLIP)</span>
             </label>
-            <label class="flex items-center w-full px-3 py-2 rounded hover:bg-gray-50 cursor-pointer">
+            <label class="flex items-center w-full px-1 py-2 rounded hover:bg-gray-50 cursor-pointer">
               <input type="checkbox" name="2d-multi-teacher" value="multi-teacher" class="w-4 h-4 mr-3" checked>
               <span>Multi-teacher Distillation (RADIO)</span>
             </label>
-            <label class="flex items-center w-full px-3 py-2 rounded hover:bg-gray-50 cursor-pointer">
+            <label class="flex items-center w-full px-1 py-2 rounded hover:bg-gray-50 cursor-pointer">
               <input type="checkbox" name="2d-image-reconstruction" value="image-reconstruction" class="w-4 h-4 mr-3" checked>
               <span>Image Reconstruction (MAE)</span>
             </label>
-            <label class="flex items-center w-full px-3 py-2 rounded hover:bg-gray-50 cursor-pointer">
+            <label class="flex items-center w-full px-1 py-2 rounded hover:bg-gray-50 cursor-pointer">
               <input type="checkbox" name="2d-denoising-vlm" value="denoising-vlm" class="w-4 h-4 mr-3" checked>
               <span>Denoising VLM (SD)</span>
             </label>

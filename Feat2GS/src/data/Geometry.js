@@ -1,3 +1,14 @@
+import erhai_clip from "../assets/Geometry/Infer_erhai_wander_color/clip_b16.mp4";
+import erhai_dift from "../assets/Geometry/Infer_erhai_wander_color/dift.mp4";
+import erhai_dino from "../assets/Geometry/Infer_erhai_wander_color/dino_b16.mp4";
+import erhai_dinov2 from "../assets/Geometry/Infer_erhai_wander_color/dinov2_b14.mp4";
+import erhai_dust3r from "../assets/Geometry/Infer_erhai_wander_color/dust3r.mp4";
+import erhai_iuvrgb from "../assets/Geometry/Infer_erhai_wander_color/iuvrgb.mp4";
+import erhai_mae from "../assets/Geometry/Infer_erhai_wander_color/mae_b16.mp4";
+import erhai_mast3r from "../assets/Geometry/Infer_erhai_wander_color/mast3r.mp4";
+import erhai_midas from "../assets/Geometry/Infer_erhai_wander_color/midas_l16.mp4";
+import erhai_radio from "../assets/Geometry/Infer_erhai_wander_color/radio.mp4";
+import erhai_sam from "../assets/Geometry/Infer_erhai_wander_color/sam_base.mp4";
 
 import train_clip from "../assets/Geometry/Tanks_Train_interpolated_color/clip_b16.mp4";
 import train_dift from "../assets/Geometry/Tanks_Train_interpolated_color/dift.mp4";
@@ -10,18 +21,6 @@ import train_mast3r from "../assets/Geometry/Tanks_Train_interpolated_color/mast
 import train_midas from "../assets/Geometry/Tanks_Train_interpolated_color/midas_l16.mp4";
 import train_radio from "../assets/Geometry/Tanks_Train_interpolated_color/radio.mp4";
 import train_sam from "../assets/Geometry/Tanks_Train_interpolated_color/sam_base.mp4";
-
-import erhai_clip from "../assets/Geometry/Infer_erhai_wander_color/clip_b16.mp4";
-import erhai_dift from "../assets/Geometry/Infer_erhai_wander_color/dift.mp4";
-import erhai_dino from "../assets/Geometry/Infer_erhai_wander_color/dino_b16.mp4";
-import erhai_dinov2 from "../assets/Geometry/Infer_erhai_wander_color/dinov2_b14.mp4";
-import erhai_dust3r from "../assets/Geometry/Infer_erhai_wander_color/dust3r.mp4";
-import erhai_iuvrgb from "../assets/Geometry/Infer_erhai_wander_color/iuvrgb.mp4";
-import erhai_mae from "../assets/Geometry/Infer_erhai_wander_color/mae_b16.mp4";
-import erhai_mast3r from "../assets/Geometry/Infer_erhai_wander_color/mast3r.mp4";
-import erhai_midas from "../assets/Geometry/Infer_erhai_wander_color/midas_l16.mp4";
-import erhai_radio from "../assets/Geometry/Infer_erhai_wander_color/radio.mp4";
-import erhai_sam from "../assets/Geometry/Infer_erhai_wander_color/sam_base.mp4";
 
 import suv_clip from "../assets/Geometry/MVimgNet_suv_interpolated_color/clip_b16.mp4";
 import suv_dift from "../assets/Geometry/MVimgNet_suv_interpolated_color/dift.mp4";
@@ -61,73 +60,6 @@ import suv_depth_sam from "../assets/Geometry/MVimgNet_suv_interpolated_depth/sa
 
 
 export const GeometryData = [
-
-  {
-    source: train_dust3r,
-    label: "DUSt3R",
-    scene: "Train",
-    color: "#B2CBC2"
-  },
-  {
-    source: train_mast3r,
-    label: "MASt3R",
-    scene: "Train",
-    color: "#BBC990"
-  },
-  {
-    source: train_midas,
-    label: "MiDaS",
-    scene: "Train",
-    color: "#6B859E"
-  },
-  {
-    source: train_dinov2,
-    label: "DINOv2",
-    scene: "Train",
-    color: "#B45342"
-  },
-  {
-    source: train_dino,
-    label: "DINO",
-    scene: "Train",
-    color: "#DCAC99"
-  },
-  {
-    source: train_sam,
-    label: "SAM",
-    scene: "Train",
-    color: "#6F936B"
-  },
-  {
-    source: train_clip,
-    label: "CLIP",
-    scene: "Train",
-    color: "#EBA062"
-  },
-  {
-    source: train_radio,
-    label: "RADIO",
-    scene: "Train",
-    color: "#FED273"
-  },
-  {
-    source: train_mae,
-    label: "MAE",
-    scene: "Train",
-    color: "#9A8EB4"
-  },
-  {
-    source: train_dift,
-    label: "SD",
-    scene: "Train",
-    color: "#706052"
-  },
-  {
-    source: train_iuvrgb,
-    label: "IUVRGB",
-    scene: "Train",
-    color: "#E9E5E5"
-  },
 
   {
     source: erhai_dust3r,
@@ -196,6 +128,73 @@ export const GeometryData = [
     color: "#E9E5E5"
   },
 
+  {
+    source: train_dust3r,
+    label: "DUSt3R",
+    scene: "Train",
+    color: "#B2CBC2"
+  },
+  {
+    source: train_mast3r,
+    label: "MASt3R",
+    scene: "Train",
+    color: "#BBC990"
+  },
+  {
+    source: train_midas,
+    label: "MiDaS",
+    scene: "Train",
+    color: "#6B859E"
+  },
+  {
+    source: train_dinov2,
+    label: "DINOv2",
+    scene: "Train",
+    color: "#B45342"
+  },
+  {
+    source: train_dino,
+    label: "DINO",
+    scene: "Train",
+    color: "#DCAC99"
+  },
+  {
+    source: train_sam,
+    label: "SAM",
+    scene: "Train",
+    color: "#6F936B"
+  },
+  {
+    source: train_clip,
+    label: "CLIP",
+    scene: "Train",
+    color: "#EBA062"
+  },
+  {
+    source: train_radio,
+    label: "RADIO",
+    scene: "Train",
+    color: "#FED273"
+  },
+  {
+    source: train_mae,
+    label: "MAE",
+    scene: "Train",
+    color: "#9A8EB4"
+  },
+  {
+    source: train_dift,
+    label: "SD",
+    scene: "Train",
+    color: "#706052"
+  },
+  {
+    source: train_iuvrgb,
+    label: "IUVRGB",
+    scene: "Train",
+    color: "#E9E5E5"
+  },
+  
   {
     source: suv_dust3r,
     label: "DUSt3R",
