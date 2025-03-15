@@ -27,8 +27,11 @@ const { title, subtitle, authors, institutions, conference, notes, links } = Ast
     <Authors authors={authors} />
     {institutions && <Institute institutions={institutions} />}
   </div>
+  <div class="flex flex-col gap-4 items-center mb-2">
+    {conference && <h3 class="text-center">{conference}</h3>}
+  </div>
   <div class="flex flex-col gap-4 items-center">
-    {conference && <p class="text-center">{conference}</p>}
+    <!-- {conference && <p class="text-center">{conference}</p>} -->
     {notes && <Notes notes={notes} />}
     {links && <Links links={links} />}
   </div>
