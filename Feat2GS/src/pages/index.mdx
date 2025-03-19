@@ -29,6 +29,9 @@ import MergeVideo from '../components/MergeVideo.astro';
 
 import pipe from "../assets/pipe.mp4";
 import motivation from "../assets/motivation.png";
+import Gprobe from "../assets/Gprobe.png";
+import Tprobe from "../assets/Tprobe.png";
+import Aprobe from "../assets/Aprobe.png";
 
 import CodeBlock from "../components/CodeBlock.astro";
 import Table from "../components/Table.astro";
@@ -125,17 +128,126 @@ import { ApplicationData } from "../data/Application.js";
 ## <a href="#chart" id="chart" className="no-underline hover:no-underline text-inherit outline-none cursor-default">Average for Novel View Synthesis across six datasets</a>
 <RadarChart className="my-8" />
 
-## <a href="#dtu" id="dtu" className="no-underline hover:no-underline text-inherit outline-none cursor-default">Novel View Synthesis _aligns well with_ Pointcloud Error Map</a>
-<CompareVideos videos={Metric3dData} className="w-full sm:w-2/3 mx-auto" />
 
-## Geometry Probing
-<CompareVideos videos={GeometryData} />
+<div 
+  id="dtu"
+  style={{
+    backgroundColor: '#fff',
+    padding: '20px',
+    margin: '50px auto 20px',
+    boxShadow: '0 0px 10px #999',
+    border: '1px solid #ccc',
+    borderRadius: '15px',
+    display: 'flex',
+    alignItems: 'center',
+    position: 'relative',
+    flexDirection: 'column',
+  }}
+>
+  <h2 style={{ marginTop: '20px', marginBottom: '20px' }}>Pointcloud Error Map _vs._ Novel View Synthesis</h2>
 
-## Texture Probing
-<CompareVideos videos={TextureData} defaultLabels={TextureConfig.defaultLabels} />
+  <h2 style={{ marginTop: '0px', marginBottom: '30px' }}>
+    <a 
+      href="#dtu" 
+      className="no-underline hover:no-underline text-inherit outline-none cursor-default"
+      style={{ textDecoration: 'none', color: 'inherit' }} 
+    >
+      We found 3D Metric and 2D Metric are well-aligned.
+    </a>
+  </h2>
 
-## All=Geometry+Texture Probing
-<CompareVideos videos={AllData} className="w-full sm:w-2/3 mx-auto" />
+  <div style={{ flex: 1, textAlign: 'center' }}>
+    <CompareVideos
+      videos={Metric3dData}
+      className="w-full sm:w-2/3 mx-auto"
+    />
+  </div>
+</div>
+
+
+
+<div style={{
+  backgroundColor: '#fff', 
+  padding: '0px 20px 20px 20px',
+  margin: '20px auto',
+  boxShadow: '0 0px 10px #999',
+  border: '1px solid #ccc',
+  borderRadius: '15px'
+}}>
+  <h2 style={{ marginTop: '20px', marginBottom: '30px' }}>Geometry Probing</h2>
+  <div className="flex justify-center mb-0">
+    <img 
+      src={Gprobe.src} 
+      alt="Geometry Probing" 
+      className="w-1/2 px-4 sm:px-0" 
+    />
+  </div>
+  <div style={{ width: '90%', margin: '0 auto' }}>
+    <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+      <p style={{ fontSize: '0.95rem', color: '#444', display: 'inline-block', marginTop: '5px' }}>
+      When probing geometry awareness, a 2-layer MLP reads out **geometry parameters** from 2D image features,
+      while **texture parameters** are freely optimized.
+      </p>
+    </div>
+  </div>
+  <CompareVideos videos={GeometryData} />
+</div>
+
+
+<div style={{
+  backgroundColor: '#fff', 
+  padding: '0px 20px 20px 20px',
+  margin: '20px auto',
+  boxShadow: '0 0px 10px #999',
+  border: '1px solid #ccc',
+  borderRadius: '15px'
+}}>
+  <h2 style={{ marginTop: '20px', marginBottom: '30px' }}>Texture Probing</h2>
+  <div className="flex justify-center mb-0">
+    <img 
+      src={Tprobe.src} 
+      alt="Texture Probing" 
+      className="w-1/2 px-4 sm:px-0" 
+    />
+  </div>
+  <div style={{ width: '90%', margin: '0 auto' }}>
+    <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+      <p style={{ fontSize: '0.95rem', color: '#444', display: 'inline-block', marginTop: '5px' }}>
+      When probing texture awareness, a 2-layer MLP reads out **texture parameters** from 2D image features,
+      while **geometry parameters** are freely optimized.
+      </p>
+    </div>
+  </div>
+  <CompareVideos videos={TextureData} defaultLabels={TextureConfig.defaultLabels} />
+</div>
+
+
+<div style={{
+  backgroundColor: '#fff', 
+  padding: '0px 20px 20px 20px',
+  margin: '20px auto',
+  boxShadow: '0 0px 10px #999',
+  border: '1px solid #ccc',
+  borderRadius: '15px'
+}}>
+  <h2 style={{ marginTop: '20px', marginBottom: '30px' }}>All=Geometry+Texture Probing</h2>
+  <div className="flex justify-center mb-0">
+    <img 
+      src={Aprobe.src} 
+      alt="All Probing" 
+      className="w-1/2 px-4 sm:px-0" 
+    />
+  </div>
+  <div style={{ width: '90%', margin: '0 auto' }}>
+    <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+      <p style={{ fontSize: '0.95rem', color: '#444', display: 'inline-block', marginTop: '5px' }}>
+      When probing both geometry and texture, a 2-layer MLP simultaneously reads out **all Gaussian parameters**  from 2D image features.
+      </p>
+    </div>
+  </div>
+  <CompareVideos videos={AllData} className="w-full sm:w-2/3 mx-auto" />
+</div>
+
 
 ## Application
 <MergeVideo videos={ApplicationData} />
