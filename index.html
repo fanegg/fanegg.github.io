@@ -1,8 +1,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
+    
   <meta name="google-site-verification" content="xDNWUvx6Q5EWK5YYSyKvK8DZTmvXhKsGX203Ll-BFFE" >	
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name=viewport content="width=800">
   <meta name="generator" content="HTML Tidy for Linux/x86 (vers 11 February 2007), see www.w3.org">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <style type="text/css">
@@ -15,12 +16,6 @@
 
     .intro-text a {
       font-size: 16px;
-    }
-
-    @media screen and (max-width: 768px) {
-      .intro-text .intro-text a {
-        font-size: 15px;
-      }
     }
     a {
     /*color: #b60a1c;*/
@@ -242,7 +237,7 @@
     <td>
       <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20">
       <!--<tr onmouseout="headshot_stop()" onmouseover="headshot_start()">-->
-      <tr>
+      <tr onmouseout="avatar_stop()" onmouseover="avatar_start()">
         <td width="67%" valign="middle">
         <p align="center">
           <name>Yue Chen (陈悦)</name>
@@ -271,7 +266,24 @@
         </p>
         </td>
         <td width="33%">
-          <a href="img/yue.jpg"><img src="img/fanegg.jpg" width="100%" alt="headshot" style="border-radius: 50%; aspect-ratio: 1/1; object-fit: cover;"></a>
+          <a href="img/yue4o.png">
+            <div class="one" style="width:100%; height:auto; position:relative;">
+              <div class="two" id='avatar_image' style="width:100%; height:auto; position:absolute; top:0; left:0;">
+                <img src="img/yue4o_resize.png" width="100%" alt="alternative headshot" style="border-radius: 50%; aspect-ratio: 1/1; object-fit: cover;">
+              </div>
+              <img src='img/fanegg.jpg' width="100%" alt="headshot" style="border-radius: 50%; aspect-ratio: 1/1; object-fit: cover;">
+            </div>
+          </a>
+          <script type="text/javascript">
+            function avatar_start() {
+              document.getElementById('avatar_image').style.opacity = "1";
+            }
+
+            function avatar_stop() {
+              document.getElementById('avatar_image').style.opacity = "0";
+            }
+            avatar_stop()
+          </script>
         </td>
       </tr>
       </table>
@@ -291,7 +303,7 @@
         <tr onmouseout="easi3_stop()" onmouseover="easi3_start()" style="height:100%">
           <td style="padding:10px 20px;width:25%;vertical-align:middle;height:100%">
             <div class="one" style="display:flex;align-items:center;height:100%">
-              <div class="two" id='easi3_image'><video  width=100% height=100% muted autoplay loop>
+              <div class="two" id='easi3_image'><video  width=100% height=100% muted autoplay loop playsinline>
               <source src="img/Easi3R.mp4" type="video/mp4">
               Your browser does not support the video tag.
               </video></div>
@@ -310,7 +322,7 @@
           </td>
           <td style="padding:10px 20px 10px 10px;width:75%;vertical-align:middle">
             <a href="https://easi3r.github.io/">
-              <papertitle>Easi3R: Estimating Disentangled Motion from DUSt3R Without Training</papertitle>
+              <papertitle>🦣Easi3R: Estimating Disentangled Motion from DUSt3R Without Training</papertitle>
             </a>
             <br>
             <a href="https://rover-xingyu.github.io/">Xingyu Chen</a>,
@@ -336,12 +348,13 @@
             <p>A simple training-free approach adapting DUSt3R for dynamic scenes.</p>
           </td>
         </tr> 
+      </table>
 
       <table width="105%" align="center" border="0" cellspacing="0" cellpadding="20" >
         <tr onmouseout="feat2gs_stop()" onmouseover="feat2gs_start()" style="height:100%">
           <td style="padding:10px 20px;width:25%;vertical-align:middle;height:100%">
             <div class="one" style="display:flex;align-items:center;height:100%">
-              <div class="two" id='feat2gs_image'><video  width=100% height=100% muted autoplay loop>
+              <div class="two" id='feat2gs_image'><video  width=100% height=100% muted autoplay loop playsinline>
               <source src="img/feat2gs.mp4" type="video/mp4">
               Your browser does not support the video tag.
               </video></div>
@@ -396,12 +409,13 @@
             <p>We found 2D metrics and 3D metrics are well-aligned.</p>
           </td>
         </tr> 
+      </table>
 
       <table width="105%" align="center" border="0" cellspacing="0" cellpadding="20" >
         <tr onmouseout="l2g_stop()" onmouseover="l2g_start()">
           <td style="padding:10px 20px;width:25%;vertical-align:middle;height:100%">
             <div class="one" style="display:flex;align-items:center;height:100%">
-              <div class="two" id='l2g_image'><video  width=100% height=100% muted autoplay loop>
+              <div class="two" id='l2g_image'><video  width=100% height=100% muted autoplay loop playsinline>
               <source src="img/l2g.mp4" type="video/mp4">
               Your browser does not support the video tag.
               </video></div>
@@ -455,12 +469,14 @@
           </div>
             <p>Each ray is flexible but follows a single global rigid transformation.</p>
           </td>
-        </tr>   
+        </tr>  
+      </table> 
 
+      <table width="105%" align="center" border="0" cellspacing="0" cellpadding="20" >
         <tr onmouseout="uv_stop()" onmouseover="uv_start()">
           <td style="padding:10px 20px;width:25%;vertical-align:middle;height:100%">
             <div class="one" style="display:flex;align-items:center;height:100%">
-              <div class="two" id='uv_image'><video  width=100% height=100% muted autoplay loop>
+              <div class="two" id='uv_image'><video  width=100% height=100% muted autoplay loop playsinline>
               <source src="img/uvvolume.mp4" type="video/mp4">
               Your browser does not support the video tag.
               </video></div>
@@ -515,7 +531,7 @@
             <p>Edit a dynamic human in NeRF with any texture you like.</p>
           </td>
         </tr> 
-        
+      </table>
 <!--       
         <tr onmouseout="PROCA_stop()" onmouseover="PROCA_start()">
           <td style="padding:10px 20px;width:25%;vertical-align:middle;height:100%">
@@ -557,10 +573,11 @@
           </td>
         </tr>        -->
     
+        <table width="105%" align="center" border="0" cellspacing="0" cellpadding="20" >
         <tr onmouseout="hanerf_stop()" onmouseover="hanerf_start()">
           <td style="padding:10px 20px;width:25%;vertical-align:middle;height:100%">
             <div class="one" style="display:flex;align-items:center;height:100%">
-              <div class="two" id='hanerf_image'><video  width=100% height=100% muted autoplay loop>
+              <div class="two" id='hanerf_image'><video  width=100% height=100% muted autoplay loop playsinline>
               <source src="img/hanerf.mp4" type="video/mp4">
               Your browser does not support the video tag.
               </video></div>
@@ -613,7 +630,8 @@
             <p>Visit the Brandenburg Gate in any season or weather.</p>
           </td>
         </tr> 
-  
+      </table>
+      
       <!-- <table width="105%" align="center" border="0" cellspacing="0" cellpadding="20" >
         <br>
         <tr>
@@ -725,47 +743,47 @@
             </p>
            <div class="tab-content">
              <div class="tab-pane active" id="video1">
-               <video width="100%" loop muted>
+               <video width="100%" loop muted playsinline>
                  <source src="img/hogwarts.mp4" type="video/mp4">
                </video>
              </div>
              <div class="tab-pane" id="video2">
-               <video width="100%" loop muted>
+               <video width="100%" loop muted playsinline>
                  <source src="img/hogwarts2.mp4" type="video/mp4">
                </video>
              </div>
              <div class="tab-pane" id="video3">
-               <video width="100%" loop muted>
+               <video width="100%" loop muted playsinline>
                  <source src="img/paper.mp4" type="video/mp4">
                </video>
              </div>
              <div class="tab-pane" id="video4">
-              <video width="100%" loop muted>
+              <video width="100%" loop muted playsinline>
                 <source src="img/paper2.mp4" type="video/mp4">
               </video>
             </div>
              <div class="tab-pane" id="video5">
-              <video width="100%" autoplay loop muted>
+              <video width="100%" autoplay loop muted playsinline>
                 <source src="img/coffee.mp4" type="video/mp4">
               </video>
             </div>
             <div class="tab-pane" id="video6">
-              <video width="100%" loop muted>
+              <video width="100%" loop muted playsinline>
                 <source src="img/home.mp4" type="video/mp4">
               </video>
             </div>
             <div class="tab-pane" id="video7">
-              <video width="100%" loop muted>
+              <video width="100%" loop muted playsinline>
                 <source src="img/yu.mp4" type="video/mp4">
               </video>
             </div>
             <div class="tab-pane" id="video8">
-              <video width="100%" loop muted>
+              <video width="100%" loop muted playsinline>
                 <source src="img/cy2.mp4" type="video/mp4">
               </video>
             </div>
             <div class="tab-pane" id="video9">
-              <video width="100%" loop muted>
+              <video width="100%" loop muted playsinline>
                 <source src="img/cy.mp4" type="video/mp4">
               </video>
             </div>
@@ -794,7 +812,7 @@
           <font size="2">
             Website source code from <a href="https://jonbarron.info/"><font size="2">Jon Barron</font></a>
           <br>
-          Last updated: Dec 2024
+          Last updated: April 2025
         </font>
         </p>
         </td>
