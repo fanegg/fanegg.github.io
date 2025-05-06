@@ -23,13 +23,17 @@ const prefix = baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
     <meta name="generator" content={Astro.generator} />
 
     <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QKC6WH4WSS"></script>
-    <script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QKC6WH4WSS" is:inline></script>
+    <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
-        dataLayer.push(arguments);
+        window.dataLayer.push(arguments);
       }
+      // @ts-ignore
+      window.gtag = gtag;
+      // @ts-ignore
       gtag('js', new Date());
+      // @ts-ignore
       gtag('config', 'G-QKC6WH4WSS');
     </script>
     <!-- End Google Analytics -->
