@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Human3R: 4D interaction</title>
+    <meta
+      content="Human3R: Everyone Everywhere All at Once"
+      name="description"
+    />
+
+    <!-- Usual metadata. -->
+    <meta charset="UTF-8" />
+    <link href="./static/images/icon.png" rel="shortcut icon" type="image/x-icon" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1"
+    />
+
+    <!-- Open Graph / Facebook. -->
+    <meta property="og:title" content="Human3R: 4D interaction" />
+    <meta
+      property="og:description"
+      content="Human3R: Everyone Everywhere All at Once"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://human3r.github.io/static/images/icon.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter. -->
+    <meta property="twitter:title" content="Human3R: 4D interaction" />
+    <meta
+      property="twitter:description"
+      content="Human3R: Everyone Everywhere All at Once"
+    />
+    <meta name="twitter:image" content="https://human3r.github.io/static/images/icon.png">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Webfont. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Styles. -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/modern-normalize@3.0.1/modern-normalize.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.19.0/tabler-icons-outline.min.css"
+      rel="stylesheet"
+    />
+    <link href="static/css/style2.css" rel="stylesheet" type="text/css" />
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FVDSP8EYWQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-FVDSP8EYWQ');
+    </script>
+
+  </head>
+  <body>
+    <div
+      class="results"
+      style="
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+      "
+    >
+      <div class="iframe-wrapper"></div>
+      <div
+        class="hide-on-touchscreens"
+        style="
+          text-align: center;
+          padding-top: 0em;
+          font-size: 0.85em;
+        "
+      >
+        (Note: Scene geometry and frames are downsampled for faster loading; ~94 MB.)
+      </div>
+      <div
+        class="hide-on-touchscreens"
+        style="
+          display: flex;
+          justify-content: center;
+          gap: 1.5em;
+          padding-top: 0em;
+        "
+      >
+        <div>
+          <i class="ti ti-view-360-arrow"></i> <strong>Left-click</strong> and
+          drag to rotate
+        </div>
+        <div>
+          <i class="ti ti-arrows-move"></i> <strong>Right-click</strong> and
+          drag or
+          <strong>WASD</strong>
+          to move
+        </div>
+        <div><i class="ti ti-zoom"></i> <strong>Scroll</strong> to zoom</div>
+      </div>
+    </div>
+    <script src="static/js/interactive.js"></script>
+  </body>
+</html>
