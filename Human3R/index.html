@@ -305,7 +305,7 @@
                             style="text-align: center; padding-bottom: 5px; padding-top: 5px; background-color: #D9A7B3; border-radius: 10px;">
                             <h6 class="title is-2 publication-title" style="margin-bottom:0rem; text-align: center; color:#ffffff; font-size: 20px; margin-left: auto; margin-right: auto;">
                                 <p>Inference with One model, One stage;
-                                Training in One day with One GPU</p>
+                                Training in One day using One GPU</p>
                             </h6>
                         </div>
                     </div>
@@ -348,7 +348,7 @@
                 <div class="column is-four-fifths">
                     <h2 class="title is-3">Online Human-Scene Reconstruction</h2>
                     <p style="max-width: 100%; margin: 0 auto; margin-bottom: 0px; text-align: center;">
-                        Given a stream of RGB images as input, Human3R enables human-scene reconstruction in an online, continuous manner, estimating global multi-person meshes, camera parameters, and dense 3D geometry with each incoming frame in real time.
+                        Given a stream of RGB images, Human3R continuously reconstructs 4D human-scene in real time, online estimating multi-person meshes, camera parameters, and dense 3D geometry within each frame.
                     </p>
             </div>
         </div>
@@ -406,9 +406,7 @@
                 <div class="column is-four-fifths">
                     <h2 class="title is-3">Failure Cases</h2>
                     <p style="max-width: 100%; margin: 0 auto; margin-bottom: 0px; text-align: center;">
-                        Human3R implicitly models human-scene interactions but does not yet resolve them.
-                        Iterative optimization—though slower and more memory-intensive—better constrains interpenetration, physics, and contacts.
-                        Human3R can serve as an effective initialization.
+                        Human3R offers coarse human-scene interactions, sometimes causing unavoidable penetration. This can serve as an initial state, refined through contact-aware iterative optimization, though it may be slower and more memory-intensive.
                     </p>
             </div>
         </div>
