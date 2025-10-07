@@ -1,16 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const thumbnailData = [
-        'PROX_MPH11_00034_01',
-        'flat_guitar_01',
-    ];
-
-    const thumbnailsHtml = thumbnailData.map(name => `
-        <img src="static/thumbs/${name}.jpg" 
-             data-video="static/videos/vis_pts/${name}.mp4"
-             class="thumbnail failure-thumbnail" 
-             alt="${name}" 
-             style="cursor: pointer; width: 100px;">
-    `).join('');
+    const failureVideoName = 'Failure_case';
 
     const content = `
         <div class="container is-max-desktop">
@@ -20,13 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="video-player-container" style="display: flex; justify-content: center; width: 100%; margin-bottom: 20px;">
                             <div id="main-failure-container" style="max-width: 1600px; width: 100%; position: relative;">
                                 <video id="main-failure" controls autoplay muted loop playsinline disablePictureInPicture style="width: 100%; height: auto;">
-                                    <source id="main-failure-source" type="video/mp4">
+                                    <source id="main-failure-source" src="static/videos/vis_pts/${failureVideoName}.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
-                    </div>
-                    <div class="thumbnail-container">
-                        ${thumbnailsHtml}
                     </div>
                 </div>
             </div>
@@ -35,21 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const style = document.createElement('style');
     style.textContent = `
-        .thumbnail {
-            border-radius: 6px;
-            border: 2px solid #fff;
-            box-shadow: 0 0 4px #888;
-            width: 100px;
-            height: 70px;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-        .thumbnail:hover { transform: scale(1.1); }
-        .video-label {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin: 0 20px;
-        }
         #main-failure {
             transition: opacity 0.3s ease;
             width: 100% !important;
@@ -70,28 +41,22 @@ document.addEventListener('DOMContentLoaded', () => {
     section.innerHTML = content;
     section.style.display = 'block';
 
-    const mainVideoElement = document.getElementById('main-failure');
-    const mainVideoSource = document.getElementById('main-failure-source');
-    const thumbnails = document.querySelectorAll('.failure-thumbnail');
+    const failureVideoElement = document.getElementById('main-failure');
+    const failureVideoSource = document.getElementById('main-failure-source');
 
-    mainVideoElement.loop = true;
+    failureVideoElement.loop = true;
+    failureVideoElement.load();
 
-    thumbnails[0].style.border = '3px solid #92A8D1';
-    mainVideoSource.src = thumbnails[0].dataset.video;
-    mainVideoElement.load();
-
-
-    const customSpeedMap = {
-        'PROX_MPH11_00034_01': 1.5, 
-        'flat_guitar_01': 1.25, 
+    const failureCustomSpeedMap = {
+        'Failure_case': 1.5,
     };
     
-    const targetDuration = 10;
+    const failureTargetDuration = 10;
     
     
-    function setVsGtVideoPlaybackRate(videoElement, videoName, callback) {
-        if (customSpeedMap[videoName]) {
-            const customSpeed = customSpeedMap[videoName];
+    function setFailureVideoPlaybackRate(videoElement, videoName, callback) {
+        if (failureCustomSpeedMap[videoName]) {
+            const customSpeed = failureCustomSpeedMap[videoName];
             videoElement.playbackRate = customSpeed;
             
             console.log(`${videoName} Using custom playback speed: ${customSpeed}x`);
@@ -105,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const duration = videoElement.duration;
                 
                 if (duration && duration > 0) {
-                    const adaptiveSpeed = Math.max(0.5, Math.min(10, duration / targetDuration));
+                    const adaptiveSpeed = Math.max(0.5, Math.min(10, duration / failureTargetDuration));
                     
                     videoElement.playbackRate = adaptiveSpeed;
                     
@@ -131,33 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
         checkMetadata();
     }
 
-    const firstVideoName = thumbnailData[0];
-    setVsGtVideoPlaybackRate(mainVideoElement, firstVideoName);
-
-    thumbnails.forEach(thumbnail => {
-        thumbnail.addEventListener('click', (event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            
-            thumbnails.forEach(t => t.style.border = '2px solid #fff');
-            thumbnail.style.border = '3px solid #92A8D1';
-            
-            mainVideoElement.style.opacity = '0';
-            
-            mainVideoSource.src = thumbnail.dataset.video;
-            mainVideoElement.load();
-            
-            new Promise(resolve => mainVideoElement.addEventListener('loadedmetadata', resolve, { once: true }))
-            .then(() => {
-                mainVideoElement.style.opacity = '1';
-                mainVideoElement.loop = true;
-                
-                const videoName = thumbnail.alt;
-                setVsGtVideoPlaybackRate(mainVideoElement, videoName, () => {
-                    mainVideoElement.play().catch(() => {});
-                });
-            });
-        });
-    });
+    setFailureVideoPlaybackRate(failureVideoElement, failureVideoName);
 
 });

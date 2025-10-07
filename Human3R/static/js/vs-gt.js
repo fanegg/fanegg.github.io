@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const targetDuration = 10;
     
     
-    function setVideoPlaybackRate_(videoElement, videoName, callback) {
+    function setVsGtVideoPlaybackRate(videoElement, videoName, callback) {
         if (customSpeedMap[videoName]) {
             const customSpeed = customSpeedMap[videoName];
             videoElement.playbackRate = customSpeed;
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const firstVideoName = thumbnailData[0];
-    setVideoPlaybackRate_(mainVideoElement, firstVideoName);
+    setVsGtVideoPlaybackRate(mainVideoElement, firstVideoName);
 
     thumbnails.forEach(thumbnail => {
         thumbnail.addEventListener('click', (event) => {
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 mainVideoElement.loop = true;
                 
                 const videoName = thumbnail.alt;
-                setVideoPlaybackRate_(mainVideoElement, videoName, () => {
+                setVsGtVideoPlaybackRate(mainVideoElement, videoName, () => {
                     mainVideoElement.play().catch(() => {});
                 });
             });

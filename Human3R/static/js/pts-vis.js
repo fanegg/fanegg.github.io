@@ -1,12 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const thumbnailData = [
         'downtown_walking_00', 'SinginintheRain1', 'P5_40_indoor_walk_big_circle', 
-        'downtown_walkBridge_01', 'go5', 'P7_58_outdoor_parcours', 
-        '100mHurdles2', 
+        'downtown_walkBridge_01', 'go5', 'P7_58_outdoor_parcours', 'GoodMornin1', 
         'P3_32_outdoor_soccer_warmup_a', 'P5_44_indoor_rom', 
         'P4_37_outdoor_run_circle', 
         'RICH_LectureHall_009_021_reparingprojector1_cam_03', 
-        'P3_33_outdoor_soccer_warmup_b', 'west', 'GoodMornin1', 
+        'P3_33_outdoor_soccer_warmup_b', 'west', 
         'downtown_runForBus_00', 'outdoors_freestyle_01',
         'downtown_runForBus_01', 'downtown_enterShop_00', 
         // 'SinginintheRain2', 'P5_42_indoor_dancing', 
