@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const customSpeedMap = {
         'downtown_walking_00': 2.5,
-        'SinginintheRain1': 1.0,
+        'SinginintheRain1': 1.25,
         'go5': 1.0,
         'GoodMornin1':1.25,
         'P4_37_outdoor_run_circle': 3.0,
