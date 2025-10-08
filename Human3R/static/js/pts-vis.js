@@ -106,14 +106,13 @@ document.addEventListener('DOMContentLoaded', () => {
         'go5': 1.0,
         'GoodMornin1':1.25,
         'P4_37_outdoor_run_circle': 3.0,
-        '100mHurdles2': 1.25,
         'P3_32_outdoor_soccer_warmup_a': 1.5,
         'west': 1.5,
         'P5_42_indoor_dancing': 2.0, 
         'downtown_runForBus_00': 2.5,
         'SinginintheRain2': 1.25,
         'P5_44_indoor_rom': 2.0, 
-        'downtown_runForBus_01': 1.25,
+        'downtown_runForBus_01': 2,
         'outdoors_freestyle_01': 1.25,
     };
     
